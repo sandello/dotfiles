@@ -32,11 +32,11 @@ set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
 " Create directories, if required.
-if !isdirectory("~/.vim/backup")
-	call mkdir("~/.vim/backup", "p", 0700)
+if !isdirectory(expand("$HOME/.vim/backup"))
+	call mkdir(expand("$HOME/.vim/backup"), "p", 0700)
 endif
-if !isdirectory("~/.vim/tmp")
-	call mkdir("~/.vim/tmp", "p", 0700)
+if !isdirectory(expand("$HOME/.vim/tmp"))
+	call mkdir(expand("$HOME/.vim/tmp"), "p", 0700)
 endif
 
 syntax on
