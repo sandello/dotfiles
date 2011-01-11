@@ -33,5 +33,7 @@ alias l='ls -CF'
 
 alias gen_hg="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/null | md5sum - | cut -c 1-16"
 
+alias tawk="awk -v FS='\t' -v OFS='\t'"
+
 alias win2utf="iconv -f cp1251 -t utf-8"
 alias utf2win="iconv -f utf-8 -t cp1251"

@@ -54,4 +54,3 @@ export EDITOR=vim
 export TMPDIR=/var/tmp
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-
