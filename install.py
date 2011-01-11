@@ -6,6 +6,8 @@ import os.path
 
 Files = [ s.strip() for s in """
 	vimrc
+	bashrc
+	bash_aliases
 """.split() ]
 
 Distribution = os.path.normpath(os.path.expanduser("~/.home"))
