@@ -1,0 +1,4 @@
+#!/usr/bin/python
+import base64
+import sys
+base64.decode(sys.stdin, sys.stdout)
