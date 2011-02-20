@@ -1,0 +1,10 @@
+#!/bin/bash
+
+N=$1
+
+if [ "x$N" = "x" ]; then
+    echo "Please, specify N."
+    exit 1
+fi
+
+cat - | awk "{ s = \"\"; for (i = 1; i <= $N; ++i) { k = NF - i + 1; s = \$k s; if (i != $N) { s = FS s; } }; print s; }" | LC_ALL=C sort | LC_ALL=C uniq -c | sort -nk 1
