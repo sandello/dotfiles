@@ -103,8 +103,8 @@ endif
 if has("gui_running")
 	colorscheme inkpot
 
-	set gfn="Menlo 12"
-	set gfw="Menlo 12"
+	set gfn=Menlo:h12
+	set gfw=Menlo:h12
 
 	set columns=150
 	set lines=50
