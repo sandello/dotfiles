@@ -12,8 +12,6 @@ set tabstop=4
 set textwidth=120
 set expandtab
 
-set background=dark
-
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,cp1251,koi8-r,latin1
@@ -40,10 +38,15 @@ if !isdirectory(expand("$HOME/.vim/tmp"))
 endif
 
 syntax on
-set t_Co=8
+set t_Co=256
 set t_Sb=^[4%dm
 set t_Sf=^[3%dm
 
+set completeopt=longest,menu
+set wildmode=list:longest,list:full
+" set complete=.,t
+
+complete
 filetype plugin on
 filetype indent on
 
@@ -59,8 +62,26 @@ function! ToggleSemicolonHighlighting() " {{{
 endfunction
 " }}}
 
+function! ToggleBackground()
+	if (g:solarized_style=="dark")
+		let g:solarized_style="light"
+		colorscheme solarized
+	else
+		let g:solarized_style="dark"
+		colorscheme solarized
+	endif
+endfunction
+" command! Togbg call ToggleBackground()
+" nnoremap <F5> :call ToggleBackground()<CR>
+" inoremap <F5> <ESC>:call ToggleBackground()<CR>a
+" vnoremap <F5> <ESC>:call ToggleBackground()<CR>
+"
+
 nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<CR>
 vmap <silent> <leader>s !sort<CR>
+
+nnoremap <leader>' :call ToggleBackground()<CR>
+vnoremap <leader>' :call ToggleBackground()<CR>
 
 map <F8> <ESC>:make<CR>
 
@@ -93,6 +114,13 @@ set foldmarker={,}
 set foldlevel=128
 set foldopen=block,hor,mark,percent,quickfix,tag
 
+" Color Scheme
+set background=light
+
+if has("gui_running")
+	colorscheme solarized
+endif
+
 " GUI features
 if (&termencoding == "utf-8") || has("gui_running")
 	set list listchars=tab:»·,trail:·,extends:…
@@ -101,8 +129,6 @@ else
 endif
 
 if has("gui_running")
-	colorscheme inkpot
-
 	set gfn=Menlo\ Regular:h12
 	set gfw=Menlo\ Regular:h12
 

@@ -6,6 +6,10 @@ export HISTCONTROL=ignoreboth
 shopt -s histappend
 shopt -s checkwinsize
 
+bind "set completion-ignore-case on"
+bind "set bell-style none"
+bind "set show-all-if-ambiguous on"
+
 case "$TERM" in
     xterm) color_prompt=yes;;
     xterm-color) color_prompt=yes;;
