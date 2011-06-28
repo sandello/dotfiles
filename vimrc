@@ -38,7 +38,7 @@ if !isdirectory(expand("$HOME/.vim/tmp"))
 endif
 
 syntax on
-set t_Co=8
+set t_Co=256
 set t_Sb=^[4%dm
 set t_Sf=^[3%dm
 
@@ -46,6 +46,10 @@ filetype off
 
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
+
+set completeopt=longest,menu
+set wildmode=list:longest,list:full
+" set complete=.,t
 
 filetype plugin on
 filetype indent on
@@ -62,8 +66,26 @@ function! ToggleSemicolonHighlighting() " {{{
 endfunction
 " }}}
 
+function! ToggleBackground()
+	if (g:solarized_style=="dark")
+		let g:solarized_style="light"
+		colorscheme solarized
+	else
+		let g:solarized_style="dark"
+		colorscheme solarized
+	endif
+endfunction
+" command! Togbg call ToggleBackground()
+" nnoremap <F5> :call ToggleBackground()<CR>
+" inoremap <F5> <ESC>:call ToggleBackground()<CR>a
+" vnoremap <F5> <ESC>:call ToggleBackground()<CR>
+"
+
 nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<CR>
 vmap <silent> <leader>s !sort<CR>
+
+nnoremap <leader>' :call ToggleBackground()<CR>
+vnoremap <leader>' :call ToggleBackground()<CR>
 
 map <F8> <ESC>:make<CR>
 
@@ -95,6 +117,13 @@ set foldmethod=marker
 set foldmarker={,}
 set foldlevel=128
 set foldopen=block,hor,mark,percent,quickfix,tag
+
+" Color Scheme
+set background=light
+
+if has("gui_running")
+	colorscheme solarized
+endif
 
 " GUI features
 if (&termencoding == "utf-8") || has("gui_running")

@@ -35,8 +35,11 @@ alias gen_hg="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/null | m
 
 alias tawk="awk -v FS='\t' -v OFS='\t'"
 
-alias win2utf="iconv -f cp1251 -t utf-8"
-alias utf2win="iconv -f utf-8 -t cp1251"
+alias w2u="iconv -f cp1251 -t utf-8"
+alias u2w="iconv -f utf-8 -t cp1251"
+
+alias f="find . -iname"
+alias g="grep -i"
 
 declare_directory_switch() {
     local name="$1"
