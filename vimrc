@@ -12,8 +12,6 @@ set tabstop=4
 set textwidth=120
 set expandtab
 
-set background=dark
-
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,cp1251,koi8-r,latin1
@@ -43,6 +41,11 @@ syntax on
 set t_Co=8
 set t_Sb=^[4%dm
 set t_Sf=^[3%dm
+
+filetype off
+
+call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
 
 filetype plugin on
 filetype indent on
@@ -101,16 +104,20 @@ else
 endif
 
 if has("gui_running")
-	colorscheme inkpot
+	set background=light
+	colorscheme solarized
 
 	set gfn=Menlo\ Regular:h12
 	set gfw=Menlo\ Regular:h12
 
-	set columns=150
-	set lines=50
+	set columns=120
+	set lines=48
 
 	set cursorline
 
 	set transparency=5
+else
+	set background=dark
+	colorscheme solarized
 endif
 

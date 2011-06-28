@@ -50,7 +50,7 @@ function reload() {
     . ~/.bashrc
 }
 
-export EDITOR=vim
+export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a Terminal"'
 export TMPDIR=/var/tmp
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
