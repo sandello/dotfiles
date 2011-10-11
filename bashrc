@@ -30,6 +30,8 @@ xterm*|rxvt*)
     ;;
 esac
 
+PATH=/usr/local/share/python:/usr/local/bin:$PATH
+
 if [ -d ~/bin ]; then
     PATH=$PATH:~/bin
 fi
@@ -51,10 +53,11 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 function reload() {
-    . ~/.bashrc
+    . ~/.bash_profile
 }
 
-export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a Terminal"'
+export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a iTerm"'
 export TMPDIR=/var/tmp
 
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export NODE_PATH=/usr/local/lib/node_modules
+export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/share/npm/bin:$PATH

@@ -10,6 +10,7 @@ set backspace=indent,eol,start
 set shiftwidth=4
 set tabstop=4
 set textwidth=120
+set colorcolumn=81
 set expandtab
 
 set encoding=utf-8
@@ -29,6 +30,9 @@ set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
+set autochdir
+set hidden
+
 " Create directories, if required.
 if !isdirectory(expand("$HOME/.vim/backup"))
 	call mkdir(expand("$HOME/.vim/backup"), "p", 0700)
@@ -47,7 +51,7 @@ filetype off
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
 
-set completeopt=longest,menu
+set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
 " set complete=.,t
 
@@ -75,11 +79,6 @@ function! ToggleBackground()
 		colorscheme solarized
 	endif
 endfunction
-" command! Togbg call ToggleBackground()
-" nnoremap <F5> :call ToggleBackground()<CR>
-" inoremap <F5> <ESC>:call ToggleBackground()<CR>a
-" vnoremap <F5> <ESC>:call ToggleBackground()<CR>
-"
 
 nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<CR>
 vmap <silent> <leader>s !sort<CR>
@@ -87,10 +86,13 @@ vmap <silent> <leader>s !sort<CR>
 nnoremap <leader>' :call ToggleBackground()<CR>
 vnoremap <leader>' :call ToggleBackground()<CR>
 
-map <F8> <ESC>:make<CR>
+nnoremap <leader>a :AV<CR>
+
+nmap <F2> :NERDTreeToggle<CR>
+nmap <F8> :make<CR>
 
 if has("autocmd")
-	au BufNewFile,Bufread *.c*  call ToggleSemicolonHighlighting()
+	au BufNewFile,Bufread *.c* call ToggleSemicolonHighlighting()
 	au BufNewFile,Bufread *.h* call ToggleSemicolonHighlighting()
 	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 	au BufEnter * :sy sync fromstart
@@ -150,3 +152,10 @@ else
 	colorscheme solarized
 endif
 
+" clang
+let g:SuperTabDefaultCompletionType = "context"
+
+let g:clang_auto_select=1
+let g:clang_complete_auto=0
+let g:clang_complete_copen=1
+let g:clang_snippets_engine="snipmate"

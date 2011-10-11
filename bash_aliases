@@ -38,8 +38,13 @@ alias tawk="awk -v FS='\t' -v OFS='\t'"
 alias w2u="iconv -f cp1251 -t utf-8"
 alias u2w="iconv -f utf-8 -t cp1251"
 
-alias f="find . -iname"
-alias g="grep -i"
+alias realpath="python -c \"import os,sys; print os.path.realpath(sys.argv[1])\" $@"
+
+alias gs="git status"
+alias gd="git diff"
+alias ga="git add"
+alias gc="git commit"
+alias gl="git log --pretty=\"format:%Cgreen%h%Creset %Cblue%an%Creset%n  %s%n  %b\""
 
 declare_directory_switch() {
     local name="$1"
