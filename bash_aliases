@@ -1,3 +1,4 @@
+# vim: set ft=sh:
 system=$(uname -s)
 
 case $(uname -s) in
@@ -5,46 +6,62 @@ case $(uname -s) in
         if [ -x /usr/bin/dircolors ]; then
             test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 
-            alias ls='ls --color=auto'
-            alias dir='dir --color=auto'
-            alias vdir='vdir --color=auto'
+            alias ls="ls --color=auto"
+            alias dir="dir --color=auto"
+            alias vdir="vdir --color=auto"
 
-            alias grep='grep --color=auto'
-            alias fgrep='fgrep --color=auto'
-            alias egrep='egrep --color=auto'
+            alias grep="grep --color=auto"
+            alias fgrep="fgrep --color=auto"
+            alias egrep="egrep --color=auto"
         fi
 
         if [ "x$DISPLAY" != "x" ]; then
-            alias vim='gvim'
+            alias vim="gvim"
         fi
         ;;
     Darwin*)
-        alias ls='ls -FG'
+        alias ls="ls -FG"
 
         if [ "x$DISPLAY" != "x" ]; then
-            alias vim='mvim'
+            alias vim="mvim"
         fi
+
+        alias flush="dscacheutil -flushcache"
         ;;
 esac
 
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
+# Navigation
+alias ..="cd .."
+alias ...="cd ../.."
 
-alias gen_hg="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/null | md5sum - | cut -c 1-16"
+alias ll="ls -la"
 
+# Text-mangling
 alias tawk="awk -v FS='\t' -v OFS='\t'"
 
 alias w2u="iconv -f cp1251 -t utf-8"
 alias u2w="iconv -f utf-8 -t cp1251"
 
-alias realpath="python -c \"import os,sys; print os.path.realpath(sys.argv[1])\" $@"
+# Dumb shortcuts
+alias d="cd ~/Dropbox"
+alias g="git"
+alias v="vim"
 
+alias fs="stat -f '%z bytes'"
+
+# Smart shortcuts
+alias headerguard="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/null | md5sum - | cut -c 1-16"
+alias realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])' $@"
+
+# git
 alias gs="git status"
 alias gd="git diff"
 alias ga="git add"
 alias gc="git commit"
-alias gl="git log --pretty=\"format:%Cgreen%h%Creset %Cblue%an%Creset%n  %s%n  %b\""
+alias gl="git log-graph"
+alias gL="git log-short"
+alias gll="git --no-pager log-graph -5 && echo"
+alias gLL="git --no-pager log-short -5 && echo"
 
 declare_directory_switch() {
     local name="$1"

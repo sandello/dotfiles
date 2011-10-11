@@ -1,7 +1,7 @@
 [ -z "$PS1" ] && return
 
-export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
-export HISTCONTROL=ignoreboth
+export HISTCONTROL="ignoreboth,ignoredups"
+export HISTIGNORE="ls"
 
 shopt -s histappend
 shopt -s checkwinsize
@@ -36,8 +36,8 @@ if [ -d ~/bin ]; then
     PATH=$PATH:~/bin
 fi
 
-if [ -d ~/.local/bin ]; then
-    PATH=$PATH:~/.local/bin
+if [ -d ~/.bin ]; then
+    PATH=$PATH:~/.bin
 fi
 
 if [ -f ~/.bash_aliases ]; then
@@ -56,7 +56,15 @@ function reload() {
     . ~/.bash_profile
 }
 
-export EDITOR='mvim -f --nomru -c "au VimLeave * !open -a iTerm"'
+case $(uname -s) in
+    Darwin*)
+        export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
+        ;;
+    *)
+        export EDITOR="vim"
+        ;;
+esac
+
 export TMPDIR=/var/tmp
 
 export NODE_PATH=/usr/local/lib/node_modules
