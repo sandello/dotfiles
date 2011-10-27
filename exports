@@ -22,10 +22,11 @@ function add_to_path() {
 
 add_to_path $HOME/bin
 add_to_path $HOME/.bin
-add_to_path /opt/local/bin
-add_to_path /opt/local/sbin
+add_to_path $(gem env | grep "EXECUTABLE DIRECTORY" | cut -d : -f 2- | cut -c 2-)
 add_to_path /usr/local/share/python
 add_to_path /usr/local/share/npm/bin
+add_to_path /opt/local/bin
+add_to_path /opt/local/sbin
 add_to_path /usr/local/bin
 add_to_path /usr/local/sbin
 
