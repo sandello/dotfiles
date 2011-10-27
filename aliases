@@ -47,6 +47,8 @@ alias d="cd ~/Dropbox"
 alias g="git"
 alias v="vim"
 
+# HexDump
+type -t hd > /dev/null || alias hd="hexdump -C"
 alias fs="stat -f '%z bytes'"
 
 # Smart shortcuts
@@ -57,6 +59,7 @@ alias realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])' 
 alias gs="git status"
 alias gd="git diff"
 alias ga="git add"
+alias gi="git add --interactive"
 alias gc="git commit"
 alias gl="git log-graph"
 alias gL="git log-short"

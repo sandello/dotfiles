@@ -48,8 +48,8 @@ set t_Sf=^[3%dm
 
 filetype off
 
+call pathogen#infect()
 call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -69,6 +69,11 @@ function! ToggleSemicolonHighlighting() " {{{
 	endif
 endfunction
 " }}}
+
+function! EnableAutosave()
+	autocmd CursorHold * silent update
+	autocmd CursorHoldI * silent update
+endfunction
 
 function! ToggleBackground()
 	if (g:solarized_style=="dark")
@@ -155,7 +160,7 @@ endif
 " clang
 let g:SuperTabDefaultCompletionType = "context"
 
-let g:clang_auto_select=1
+let g:clang_auto_select=0
 let g:clang_complete_auto=0
-let g:clang_complete_copen=1
+let g:clang_complete_copen=0
 let g:clang_snippets_engine="snipmate"

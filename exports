@@ -1,0 +1,33 @@
+export HISTSIZE=32768
+export HISTFILESIZE="$HISTSIZE"
+export HISTCONTROL="ignoreboth,ignoredups"
+export HISTIGNORE="ls:ls *"
+export HISTCONTROL=ignoredups
+
+case $(uname -s) in
+    Darwin*)
+        export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
+        ;;
+    *)
+        export EDITOR="vim"
+        ;;
+esac
+
+
+[[ -z "$TMPDIR" ]] && export TMP_DIR=/var/tmp
+
+function add_to_path() {
+    [ -d "$*" ] && PATH="$*:$PATH"
+}
+
+add_to_path $HOME/bin
+add_to_path $HOME/.bin
+add_to_path /opt/local/bin
+add_to_path /opt/local/sbin
+add_to_path /usr/local/share/python
+add_to_path /usr/local/share/npm/bin
+add_to_path /usr/local/bin
+add_to_path /usr/local/sbin
+
+export NODE_PATH=/usr/local/lib/node_modules
+export PATH
