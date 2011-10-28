@@ -58,6 +58,7 @@ alias realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])' 
 # git
 alias gs="git status"
 alias gd="git diff"
+alias gdc="git diff --cached"
 alias ga="git add"
 alias gi="git add --interactive"
 alias gc="git commit"
@@ -65,6 +66,8 @@ alias gl="git log-graph"
 alias gL="git log-short"
 alias gll="git --no-pager log-graph -5 && echo"
 alias gLL="git --no-pager log-short -5 && echo"
+alias gpull="git pull"
+alias gpush="git push"
 
 declare_directory_switch() {
     local name="$1"
