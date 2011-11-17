@@ -48,7 +48,7 @@ alias g="git"
 alias v="vim"
 
 # HexDump
-type -t hd > /dev/null || alias hd="hexdump -C"
+type hd > /dev/null || alias hd="hexdump -C"
 alias fs="stat -f '%z bytes'"
 
 # Smart shortcuts
@@ -56,18 +56,56 @@ alias headerguard="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/nul
 alias realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])' $@"
 
 # git
-alias gs="git status"
+alias g="git"
+
+alias ga="git add"
+alias gai="git add --interactive"
+
+alias gb="git branch"
+alias gba="git branch -a"
+
+alias gc="git commit"
+alias gco="git checkout"
+
 alias gd="git diff"
 alias gdc="git diff --cached"
-alias ga="git add"
-alias gi="git add --interactive"
-alias gc="git commit"
-alias gl="git log-graph"
-alias gL="git log-short"
+
+alias gs="git status"
+alias gst="git status"
+
+alias glg="git log-graph"
+alias gLg="git log-short"
 alias gll="git --no-pager log-graph -5 && echo"
 alias gLL="git --no-pager log-short -5 && echo"
-alias gpull="git pull"
-alias gpush="git push"
+
+alias gl="git pull"
+alias gp="git push"
+
+alias gup="git fetch && git rebase"
+
+if [[ "$SHELL" = "/bin/zsh" ]]; then
+    compdef g=git
+    compdef _git ga=git-add
+    compdef _git gai=git-add
+    compdef _git gb=git-branch
+    compdef _git gba=git-branch
+    compdef _git gc=git-commit
+    compdef _git gco=git-checkout
+    compdef _git gd=git-diff
+    compdef _git gdc=git-diff
+    compdef _git gs=git-status
+    compdef _git gst=git-status
+    compdef _git glg=git-log
+    compdef _git gLg=git-log
+    compdef _git gll=git-log
+    compdef _git gLL=git-log
+    compdef _git gl=git-pull
+    compdef _git gp=git-push
+    compdef _git gup=git-fetch
+fi
+
+alias rvm_install_shortcut='bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)'
+alias brew_install_shortcut='/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"'
 
 declare_directory_switch() {
     local name="$1"
