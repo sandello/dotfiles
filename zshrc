@@ -5,6 +5,11 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
+
+# Possibly Good Ones:
+#  * prose
+#  * daveverwer
+#  * kennethreitz
 export ZSH_THEME="random"
 
 # Set to this to use case-sensitive completion
@@ -31,7 +36,7 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 for item in $HOME/.{aliases,aliases_private,exports,exports_private}; do
-    [ -d "$item" ] && \
+    [ -f "$item" ] && \
         source "$item"
 done
 unset item
