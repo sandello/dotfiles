@@ -1,8 +1,6 @@
 export HISTSIZE=32768
 export HISTFILESIZE="$HISTSIZE"
 export HISTCONTROL="ignoreboth,ignoredups"
-export HISTIGNORE="ls:ls *"
-export HISTCONTROL=ignoredups
 
 export DEBFULLNAME="Ivan Pouzyrevsky"
 export DEBEMAIL="sandello@yandex-team.ru"

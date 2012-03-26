@@ -128,10 +128,6 @@ set foldopen=block,hor,mark,percent,quickfix,tag
 " Color Scheme
 set background=light
 
-if has("gui_running")
-	colorscheme solarized
-endif
-
 " GUI features
 if (&termencoding == "utf-8") || has("gui_running")
 	set list listchars=tab:»·,trail:·,extends:…
@@ -154,7 +150,7 @@ if has("gui_running")
 	set transparency=5
 else
 	set background=dark
-	colorscheme solarized
+	"colorscheme inkpot
 endif
 
 " clang
