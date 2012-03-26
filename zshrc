@@ -34,7 +34,7 @@ export ZSH_THEME="random"
 plugins=(osx git ruby brew)
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.sh
+source $HOME/.dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Customize to your needs...
 

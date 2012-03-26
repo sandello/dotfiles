@@ -13,6 +13,7 @@ $exclude = %w[
   README.md
   autojump
   dircolors-solarized
+  zsh-syntax-highlighting
 ]
 
 desc "install autojump"
