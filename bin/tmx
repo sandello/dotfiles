@@ -1,0 +1,88 @@
+#!/bin/bash
+
+#
+# Tmux Launcher
+#
+# See:
+#     http://github.com/brandur/tmux-extra
+#     https://raw.github.com/mdengler/tmux-extra/master/tmx
+#
+# Modified version of a script orginally found at:
+#     http://forums.gentoo.org/viewtopic-t-836006-start-0.html
+#
+
+# Works because bash automatically trims by assigning to variables and by
+# passing arguments
+
+trim() { echo $1; }
+
+#TMUX_SUPPORTS_MINUS_F=$(tmux list-sessions -F '#{session_name}' > /dev/null 2>&1 && echo 0 || echo 1)
+#...but that hangs on Linux due to epoll problems -- see
+# https://sourceforge.net/tracker/?func=detail&atid=973262&aid=3489496&group_id=200378
+TMUX_SUPPORTS_MINUS_F=1
+
+tmux-list-sessions() {
+    if [[ "$TMUX_SUPPORTS_MINUS_F" == 0 ]] ; then
+        tmux list-sessions -F '#{session_name}'
+    else
+        tmux list-sessions | cut -d: -f 1
+    fi
+}
+
+tmux-list-old-sessions() {
+    if [[ "$TMUX_SUPPORTS_MINUS_F" == 0 ]] ; then
+        tmux list-sessions -F '#{?session_attached,,#{?session_grouped,,#{session_name}}}'
+    else
+        tmux list-sessions 2>/dev/null | grep -v '(group [[:digit:]]\+)' | grep -v '(attached)' | cut -d: -f 1
+    fi
+}
+
+if [[ -z "$1" ]]; then
+    echo "Specify session name as the first argument"
+    exit
+fi
+
+base_session="$1"
+# This actually works without the trim() on all systems except OSX
+tmux_nb=$(trim `tmux-list-sessions | grep -c "^$base_session$"`)
+if [[ "$tmux_nb" == "0" ]]; then
+    echo "Launching tmux base session $base_session ..."
+
+    # we separate 'new-session' and 'attach' to allow .tmux.conf
+    # commands to create the new session first with the right name
+    # (which is, after all, a simple convention so easily shared),
+    # which will (perversely) then cause this new-session command to
+    # exit with an error.  Despite this error, a new session with
+    # exactly that name has been created.  Then we can happily attach
+    # to it.  If .tmux.conf has no new-session command in it, our
+    # explicit 'new-session' creates it, and we attach happily, again,
+    # to it.
+    tmux new-session -d -s $base_session
+    tmux attach         -t $base_session
+
+else
+    # Make sure we are not already in a tmux session
+    if [[ -z "$TMUX" ]]; then
+        # Kill defunct sessions first
+        for old_session_id in `tmux-list-old-sessions` ; do
+            tmux kill-session -t $old_session_id
+        done
+
+        echo "Launching copy of base session $base_session ..."
+
+        # Find a session prefix number that hasn't already been used
+        num_prefix=1
+        while [[ $(trim `tmux-list-sessions | grep "^$num_prefix,$base_session" | wc -l`) -gt 0 ]];
+        do
+            num_prefix=`expr $num_prefix + 1`
+        done
+        session_id="$num_prefix,$base_session"
+        # Create a new session (without attaching it) and link to base session
+        # to share windows
+        tmux new-session -d -t $base_session -s $session_id
+        # Attach to the new session
+        tmux attach-session -t $session_id
+        # When we detach from it, kill the session
+        tmux kill-session -t $session_id
+    fi
+fi
