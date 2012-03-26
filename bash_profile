@@ -12,11 +12,10 @@ for item in $HOME/.{aliases,aliases_private,bash_prompt,exports,exports_private}
 done
 unset item
 
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
+[[ -f /etc/bash_completion ]] && source /etc/bash_completion
+[[ -f /etc/bash_completion ]] && source $HOME/.dotfiles/bash_completion_knife
 
-[ -e "$HOME/.ssh/config" ] && \
+[[ -e "$HOME/.ssh/config" ]] && \
     complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
 
@@ -44,4 +43,6 @@ complete -o default -o nospace -F _git_log gLL
 complete -o default -o nospace -F _git_pull gl
 complete -o default -o nospace -F _git_push gp
 
-source $HOME/.dotfiles/bash_completion_knife
+[[ -f $HOME/.autojump/etc/profile.d/autojump.bash ]] &&\
+    source $HOME/.autojump/etc/profile.d/autojump.bash
+eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)

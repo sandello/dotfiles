@@ -82,27 +82,6 @@ alias gLL="git --no-pager log-short -5 && echo"
 alias gl="git pull --rebase"
 alias gp="git push"
 
-if [[ "$SHELL" = "/bin/zsh" ]]; then
-    compdef g=git
-    compdef _git ga=git-add
-    compdef _git gai=git-add
-    compdef _git gb=git-branch
-    compdef _git gba=git-branch
-    compdef _git gc=git-commit
-    compdef _git gco=git-checkout
-    compdef _git gd=git-diff
-    compdef _git gdc=git-diff
-    compdef _git gs=git-status
-    compdef _git gst=git-status
-    compdef _git glg=git-log
-    compdef _git gLg=git-log
-    compdef _git gll=git-log
-    compdef _git gLL=git-log
-    compdef _git gl=git-pull
-    compdef _git gp=git-push
-    compdef _git gup=git-fetch
-fi
-
 alias rvm_install_shortcut='bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)'
 alias brew_install_shortcut='/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"'
 

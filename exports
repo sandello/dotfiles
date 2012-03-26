@@ -8,6 +8,7 @@ export DEBEMAIL="sandello@yandex-team.ru"
 case $(uname -s) in
     Darwin*)
         export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
+        export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
         ;;
     *)
         export EDITOR="vim"

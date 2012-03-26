@@ -34,6 +34,7 @@ export ZSH_THEME="random"
 plugins=(osx git ruby brew)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.sh
 
 # Customize to your needs...
 
@@ -42,3 +43,33 @@ for item in $HOME/.{aliases,aliases_private,exports,exports_private}; do
         source "$item"
 done
 unset item
+
+compdef g=git
+
+compdef _git ga=git-add
+compdef _git gai=git-add
+
+compdef _git gb=git-branch
+compdef _git gba=git-branch
+
+compdef _git gc=git-commit
+
+compdef _git gco=git-checkout
+
+compdef _git gd=git-diff
+compdef _git gdc=git-diff
+
+compdef _git gs=git-status
+compdef _git gst=git-status
+
+compdef _git glg=git-log
+compdef _git gLg=git-log
+compdef _git gll=git-log
+compdef _git gLL=git-log
+
+compdef _git gl=git-pull
+compdef _git gp=git-push
+
+[[ -f ~/.autojump/etc/profile.d/autojump.zsh ]] && \
+    source ~/.autojump/etc/profile.d/autojump.zsh
+eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)

@@ -3,21 +3,29 @@
 # Based on: https://github.com/ryanb/dotfiles/blob/master/Rakefile
 ################################################################################
 
-require 'rake'
-require 'erb'
+require "rake"
+require "erb"
 
 $exclude = %w[
   bootstrap.sh
   Rakefile
   README
   README.md
+  autojump
+  dircolors-solarized
 ]
+
+desc "install autojump"
+task :autojump do
+  directory = File.expand_path("#{ENV["HOME"]}/.dotfiles/autojump")
+  system %Q{cd #{directory} && #{directory}/install.sh --local}
+end
 
 desc "install the dotfiles into the home directory"
 task :install do
   replace_all = false
 
-  Dir['*'].each do |file|
+  Dir["*"].each do |file|
     next if $exclude.include? file
     file = expand(file)
 
@@ -29,12 +37,12 @@ task :install do
       else
         status :overwrite, file, "? [ynaq]"
         case $stdin.gets.chomp
-        when 'a'
+        when "a"
           replace_all = true
           do_replace file
-        when 'y'
+        when "y"
           do_replace file
-        when 'q'
+        when "q"
           exit
         else
           status :skipping, file
@@ -50,11 +58,11 @@ def status(what, file, extra = "")
   puts "%12s %s%s" % [ what.to_s, file[:pretty], extra ]
 end
 
-def expand(file)
+def expand(file, source = nil, target = nil)
   {
-    :pretty => "~/.#{file.sub('.erb', '')}",
-    :source => File.expand_path(File.join(ENV['PWD'], file)),
-    :target => File.expand_path(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
+    :pretty => "~/.#{file.sub(".erb", "")}",
+    :source => if source.nil? then File.expand_path(File.join(ENV["PWD"], file)) else File.expand_path(source) end,
+    :target => if target.nil? then File.expand_path(File.join(ENV["HOME"], ".#{file.sub(".erb", "")}")) else File.expand_path(target) end
   }
 end
 
@@ -66,7 +74,7 @@ end
 def do_link(file)
   if file[:source] =~ /.erb$/
     status :generating, file
-    File.open(file[:target], 'w') do |new_file|
+    File.open(file[:target], "w") do |new_file|
       new_file.write ERB.new(File.read(file[:source])).result(binding)
     end
   else
