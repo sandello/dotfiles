@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -10,6 +10,8 @@ ZSH=$HOME/.oh-my-zsh
 #  * prose
 #  * daveverwer
 #  * kennethreitz
+#  * duellj
+#  * jonathan
 export ZSH_THEME="random"
 
 # Set to this to use case-sensitive completion
