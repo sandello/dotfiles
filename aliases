@@ -54,6 +54,7 @@ alias fs="stat -f '%z bytes'"
 # Smart shortcuts
 alias headerguard="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/null | md5sum - | cut -c 1-16"
 alias realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])' $@"
+alias rmorig="find . -name '*.orig' -delete"
 
 # git
 alias g="git"

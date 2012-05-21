@@ -12,7 +12,7 @@ export ZSH=$HOME/.oh-my-zsh
 #  * kennethreitz
 #  * duellj
 #  * jonathan
-export ZSH_THEME="random"
+export ZSH_THEME="prose"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -72,4 +72,6 @@ compdef _git gp=git-push
 
 [[ -f ~/.autojump/etc/profile.d/autojump.zsh ]] && \
     source ~/.autojump/etc/profile.d/autojump.zsh
-eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
+
+which -s dircolors > /dev/null 2>&1 && \
+    eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)

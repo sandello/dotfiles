@@ -45,4 +45,5 @@ complete -o default -o nospace -F _git_push gp
 
 [[ -f $HOME/.autojump/etc/profile.d/autojump.bash ]] &&\
     source $HOME/.autojump/etc/profile.d/autojump.bash
-eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
+which -s dircolors > /dev/null 2>&1 && \
+    eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)

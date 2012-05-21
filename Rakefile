@@ -20,6 +20,7 @@ desc "install autojump"
 task :autojump do
   directory = File.expand_path("#{ENV["HOME"]}/.dotfiles/autojump")
   system %Q{cd #{directory} && #{directory}/install.sh --local}
+  system %Q{cd #{directory} && #{directory}/install.sh --local --zsh}
 end
 
 desc "install the dotfiles into the home directory"
