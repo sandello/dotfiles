@@ -48,8 +48,12 @@ set t_Sf=^[3%dm
 
 filetype off
 
-call pathogen#infect()
-call pathogen#helptags()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'mileszs/ack.vim'
+Bundle 'tpope/vim-fugitive'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
