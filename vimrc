@@ -54,6 +54,14 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'wincent/Command-T'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'mutewinter/vim-indent-guides'
+Bundle 'mileszs/ack.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'ervandew/supertab'
+Bundle 'benmills/vimux'
+Bundle 'Rip-Rip/clang_complete'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -67,7 +75,7 @@ function! ToggleSemicolonHighlighting() " {{{
 		unlet b:semicolon
 		hi semicolon guifg=NONE gui=NONE ctermfg=NONE
 	else
-		syn match semicolon #;$#
+		syn match semicolon #;\s*$#
 		hi semicolon guifg=red gui=bold ctermfg=1
 		let b:semicolon = 1
 	endif
@@ -95,7 +103,8 @@ vmap <silent> <leader>s !sort<CR>
 nnoremap <leader>' :call ToggleBackground()<CR>
 vnoremap <leader>' :call ToggleBackground()<CR>
 
-nnoremap <leader>a :AV<CR>
+nnoremap <leader>a :A<CR>
+nnoremap <leader>A :AV<CR>
 
 nmap <F2> :NERDTreeToggle<CR>
 nmap <F8> :make<CR>
@@ -160,7 +169,10 @@ endif
 " clang
 let g:SuperTabDefaultCompletionType = "context"
 
-let g:clang_auto_select=0
-let g:clang_complete_auto=0
-let g:clang_complete_copen=0
-let g:clang_snippets_engine="snipmate"
+let g:clang_auto_select=1
+let g:clang_complete_auto=1
+let g:clang_complete_copen=1
+let g:clang_exec="/home/sandello/Projects/llvm-build-trunk/bin/clang"
+let g:clang_use_library=1
+let g:clang_library_path="/home/sandello/Projects/llvm-build-trunk/lib"
+
