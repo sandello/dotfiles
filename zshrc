@@ -34,7 +34,6 @@ export ZSH_THEME="prose"
 plugins=(osx git ruby brew)
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Customize to your needs...
 
@@ -69,6 +68,10 @@ compdef _git gLL=git-log
 
 compdef _git gl=git-pull
 compdef _git gp=git-push
+
+__git_files () {
+    _wanted files expl 'local files' _files
+}
 
 [[ -f ~/.autojump/etc/profile.d/autojump.zsh ]] && \
     source ~/.autojump/etc/profile.d/autojump.zsh
