@@ -50,3 +50,4 @@ which -s dircolors > /dev/null 2>&1 && \
     eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+[[ -s "$HOME/.tmuxinator/scripts/tmuxinator" ]] && source "$HOME/.tmuxinator/scripts/tmuxinator"
