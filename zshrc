@@ -69,10 +69,6 @@ compdef _git gLL=git-log
 compdef _git gl=git-pull
 compdef _git gp=git-push
 
-__git_files () {
-    _wanted files expl 'local files' _files
-}
-
 which -s dircolors > /dev/null 2>&1 && \
     eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
 
