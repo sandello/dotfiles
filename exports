@@ -7,6 +7,9 @@ export DEBEMAIL="sandello@yandex-team.ru"
 
 export LC_ALL=C
 
+export PDSH_RCMD_TYPE="ssh"
+export PDSH_SSH_ARGS_APPEND="-q -A -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=publickey"
+
 case $(uname -s) in
     Darwin*)
         export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
