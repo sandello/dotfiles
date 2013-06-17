@@ -5,6 +5,8 @@ export HISTCONTROL="ignoreboth,ignoredups"
 export DEBFULLNAME="Ivan Pouzyrevsky"
 export DEBEMAIL="sandello@yandex-team.ru"
 
+export LC_ALL=C
+
 case $(uname -s) in
     Darwin*)
         export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"

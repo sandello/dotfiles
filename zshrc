@@ -73,9 +73,6 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
-[[ -f ~/.autojump/etc/profile.d/autojump.zsh ]] && \
-    source ~/.autojump/etc/profile.d/autojump.zsh
-
 which -s dircolors > /dev/null 2>&1 && \
     eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
 

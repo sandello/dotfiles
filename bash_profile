@@ -18,7 +18,6 @@ unset item
 [[ -e "$HOME/.ssh/config" ]] && \
     complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
-
 complete -o default -o nospace -F _git_add ga
 complete -o default -o nospace -F _git_add gai
 
@@ -42,9 +41,6 @@ complete -o default -o nospace -F _git_log gLL
 
 complete -o default -o nospace -F _git_pull gl
 complete -o default -o nospace -F _git_push gp
-
-[[ -f $HOME/.autojump/etc/profile.d/autojump.bash ]] &&\
-    source $HOME/.autojump/etc/profile.d/autojump.bash
 
 which -s dircolors > /dev/null 2>&1 && \
     eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
