@@ -55,13 +55,12 @@ Bundle 'gmarik/vundle'
 Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'wincent/Command-T'
-Bundle 'Lokaltog/vim-easymotion'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'ervandew/supertab'
 Bundle 'benmills/vimux'
-Bundle 'Rip-Rip/clang_complete'
+Bundle 'Valloric/YouCompleteMe'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -175,11 +174,4 @@ map <Leader>vx :VimuxInterruptRunner<CR>
 
 " clang
 let g:SuperTabDefaultCompletionType = "context"
-
-let g:clang_auto_select=1
-let g:clang_complete_auto=1
-let g:clang_complete_copen=1
-let g:clang_exec="/home/sandello/Projects/llvm-build-trunk/bin/clang"
-let g:clang_use_library=1
-let g:clang_library_path="/home/sandello/Projects/llvm-build-trunk/lib"
 
