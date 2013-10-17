@@ -14,18 +14,9 @@ case $(uname -s) in
             alias fgrep="fgrep --color=auto"
             alias egrep="egrep --color=auto"
         fi
-
-        if [ "x$DISPLAY" != "x" ]; then
-            alias vim="gvim"
-        fi
         ;;
     Darwin*)
         alias ls="ls -FG"
-
-        if [ "x$DISPLAY" != "x" ]; then
-            alias vim="mvim"
-        fi
-
         alias flush="dscacheutil -flushcache"
         ;;
 esac
@@ -88,44 +79,15 @@ alias grr="git reset HEAD . ; git checkout ."
 alias rvm_install_shortcut='bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)'
 alias brew_install_shortcut='/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"'
 
-declare_directory_switch() {
-    local name="$1"
-    local target="$2"
-
-    eval "
-$name() {
-    cd $target/\$*
-}
-
-_$name() {
-    local current=\"\${COMP_WORDS[COMP_CWORD]}\"
-    local variants=\$(_complete_directory_switch \"$target\" \"\$current\")
-    COMPREPLY=(\$(compgen -W \"\$variants\" \"\$current\"))
-}
-complete -F _$name $name
-"
-}
-
-_complete_directory_switch() {
-    local path=$(cd "$1" && pwd -P)
-    local name=$(echo "$2")
-    local mydirname=$(dirname "$name")
-    local mybasename=$(basename "$name")
-
-    if [[ "z$mydirname" = "z." ]] ; then
-        local variants=$(
-            find "$path" -maxdepth 2 -path "$path/$name*" -type d \
-            | egrep -v "\.(git|svn)" \
-            | sed "s#$path/##;s#/*\$#/#"
-        )
-    else
-        local variants=$(
-            find "$path/$mydirname" -maxdepth 2 -path "$path/$mydirname/$mybasename*" -type d \
-            | egrep -v "\.(git|svn)" \
-            | sed "s#$path/##;s#/*\$#/#"
-        )
+refresh_tmux() {
+    if [[ -n $TMUX ]]; then
+        NEW_SSH_AUTH_SOCK=`tmux showenv | grep ^SSH_AUTH_SOCK | cut -d = -f 2`
+        if [[ -n $NEW_SSH_AUTH_SOCK ]] && [[ -S $NEW_SSH_AUTH_SOCK ]]; then
+            SSH_AUTH_SOCK=$NEW_SSH_AUTH_SOCK
+            export SSH_AUTH_SOCK
+        fi
+        DISPLAY=`tmux showenv | grep ^DISPLAY | cut -d = -f 2`
+        export DISPLAY
     fi
-
-    echo $variants
 }
 

@@ -22,6 +22,7 @@ set noerrorbells
 set hlsearch
 set incsearch
 set ruler
+set number
 
 set wildignore=*.o
 set viminfo='20,<50,s10,h
@@ -54,13 +55,14 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'wincent/Command-T'
-Bundle 'mutewinter/vim-indent-guides'
+Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'ervandew/supertab'
 Bundle 'benmills/vimux'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'scrooloose/syntastic'
+Bundle 'derekwyatt/vim-fswitch'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -84,16 +86,6 @@ endfunction
 function! EnableAutosave()
 	autocmd CursorHold * silent update
 	autocmd CursorHoldI * silent update
-endfunction
-
-function! ToggleBackground()
-	if (g:solarized_style=="dark")
-		let g:solarized_style="light"
-		colorscheme solarized
-	else
-		let g:solarized_style="dark"
-		colorscheme solarized
-	endif
 endfunction
 
 nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<CR>
@@ -162,8 +154,11 @@ if has("gui_running")
 	set transparency=5
 else
 	set background=dark
-	"colorscheme inkpot
+	colorscheme hybrid
 endif
+
+" fswitch
+nmap <silent> <Leader>A :FSHere<cr>
 
 " vimux
 map <Leader>vp :VimuxPromptCommand<CR>
@@ -172,6 +167,17 @@ map <Leader>vi :VimuxInspectRunner<CR>
 map <Leader>vq :VimuxCloseRunner<CR>
 map <Leader>vx :VimuxInterruptRunner<CR>
 
-" clang
+" SuperTab
 let g:SuperTabDefaultCompletionType = "context"
+
+" YouCompleteMe
+nnoremap <leader>jc :YcmForceCompileAndDiagnostics<CR>
+nnoremap <leader>jg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>jc :YcmCompleter GoToDeclaration<CR>
+
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_min_num_identifier_candidate_chars = 3
+
+let g:syntastic_always_populate_loc_list = 1
 
