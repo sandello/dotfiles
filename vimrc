@@ -6,6 +6,7 @@ set cpo&vim
 let mapleader='\'
 
 set backspace=indent,eol,start
+set cinoptions=:s,g0,(s,ls
 
 set shiftwidth=4
 set tabstop=4
@@ -180,4 +181,5 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_identifier_candidate_chars = 3
 
 let g:syntastic_always_populate_loc_list = 1
+let g:ycm_extra_conf_globlist = ['~/yt/source/*']
 
