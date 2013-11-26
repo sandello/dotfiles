@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import argparse
+import difflib
 import os
+import re
 import subprocess
+import sys
 
 DOTFILES = os.path.realpath(os.path.expanduser("~/.dotfiles"))
 HOME = os.path.realpath(os.path.expanduser("~"))
@@ -75,6 +78,11 @@ def report(entry, action, action_color="yellow"):
         action=action)
 
 
+def input(message):
+    result = raw_input(message + ": ")
+    return result.strip()
+
+
 def ask(message):
     result = raw_input(message + " (y/N)? ")
     return result.lower() in ["y", "ye", "yes"]
@@ -84,8 +92,19 @@ def ask(message):
 # Resources.
 
 class Resource(object):
-    def __init__(self, entry):
+    def __init__(self, entry, source, target):
         self.entry = entry
+        self.source = source
+        self.target = target
+
+    def exists(self):
+        return os.path.lexists(self.target)
+
+    def conflicts(self):
+        return os.path.lexists(self.target)
+
+    def undeploy(self):
+        return os.unlink(self.target)
 
     def deploy(self):
         raise NotImplementedError
@@ -94,25 +113,59 @@ class Resource(object):
         return "<Resource '{}''>".format(self.entry)
 
 
-class LinkResource(Resource):
-    def __init__(self, entry, source, target):
-        self.entry = entry
-        self.source = source
-        self.target = target
+class TemplateResource(Resource):
+    class InteractiveDict(dict):
+        def __missing__(self, key):
+            self[key] = input(key)
+            return self[key]
+
+    def __init__(self, *args, **kwargs):
+        super(TemplateResource, self).__init__(*args, **kwargs)
+        self.cache = self.InteractiveDict()
+
+    def conflicts(self):
+        if os.path.lexists(self.target):
+            with open(self.target, "r") as handle:
+                expected = self.render()
+                actual = handle.read()
+                if expected != actual:
+                    for line in difflib.unified_diff(actual, expected):
+                        sys.stdout.write(line)
+                    sys.stdout.flush(line)
+                    return True
+                else:
+                    return False
+        else:
+            return False
 
     def deploy(self):
+        with open(self.target, "w") as handle:
+            report(self.entry, "template", "green")
+            handle.write(self.render())
+
+    def render(self):
+        def cb(match):
+            return self.cache[match.group(1)]
+        with open(self.source, "r") as handle:
+            result = handle.read()
+            result = re.sub(r"<%=\s*(.+?)\s* %>", cb, result)
+            return result
+
+
+class LinkResource(Resource):
+    def __init__(self, *args, **kwargs):
+        super(LinkResource, self).__init__(*args, **kwargs)
+
+    def conflicts(self):
         if os.path.lexists(self.target):
             if os.path.islink(self.target):
-                if os.readlink(self.target) == self.source:
-                    report(self.entry, "exists", "green")
-                    return
-            report(self.entry, "conflict", "red")
-            if not ask("Overwrite {}".format(self.target)):
-                report(self.entry, "skip")
-                return
+                return os.readlink(self.target) != self.source
             else:
-                report(self.entry, "remove", "red")
-                os.unlink(self.target)
+                return True
+        else:
+            return False
+
+    def deploy(self):
         report(self.entry, "symlink", "green")
         os.symlink(self.source, self.target)
 
@@ -131,10 +184,15 @@ def build_resource_list():
 
 
 def build_resource_from_file(entry, resources):
-    resources.append(LinkResource(
-        entry,
-        os.path.join(DOTFILES, entry),
-        os.path.join(HOME, "." + entry)))
+    source = os.path.join(DOTFILES, entry)
+    target = os.path.join(HOME, "." + entry)
+    cls = LinkResource
+
+    if entry.endswith(".tt"):
+        target = target[:-3]
+        cls = TemplateResource
+
+    resources.append(cls(entry, source, target))
 
 
 def build_resource_from_directory(entry, resources):
@@ -174,7 +232,18 @@ def main():
             raise RuntimeError("Whoops, you are running from a bad-bad place!")
         print "Deploying {} -> {}...".format(DOTFILES, HOME)
         for resource in build_resource_list():
-            resource.deploy()
+            if resource.conflicts():
+                report(resource.entry, "conflict")
+                if not ask("Overwrite {}".format(resource.target)):
+                    report(resource.entry, "skip")
+                    continue
+                else:
+                    report(resource.entry, "remove")
+                    resource.undeploy()
+            if resource.exists():
+                report(resource.entry, "exists", "green")
+            else:
+                resource.deploy()
 
 
 if __name__ == "__main__":

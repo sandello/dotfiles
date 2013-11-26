@@ -1,14 +1,10 @@
 [user]
-    name = <%= print("Git Name: "); STDOUT.flush; STDIN.gets.chomp %>
-    email = <%= print("Git Mail: "); STDOUT.flush; STDIN.gets.chomp %>
+    name = <%= Your Name %>
+    email = <%= Your Email %>
 
 [core]
-    excludes = <%= ENV['HOME'] %>/.gitignore
+    excludes = ~/.gitignore
     quotepath = false
-
-[github]
-    token = <%= print("GitHub Token: "); STDOUT.flush; STDIN.gets.chomp %>
-    user = <%= print("GitHub User: "); STDOUT.flush; STDIN.gets.chomp %>
 
 [color]
     diff = auto
