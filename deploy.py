@@ -101,7 +101,6 @@ class LinkResource(Resource):
         self.target = target
 
     def deploy(self):
-        print self.target
         if os.path.lexists(self.target):
             if os.path.islink(self.target):
                 if os.readlink(self.target) == self.source:
