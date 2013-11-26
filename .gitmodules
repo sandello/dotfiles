@@ -1,6 +1,0 @@
-[submodule "oh-my-zsh"]
-	path = oh-my-zsh
-	url = git://github.com/sjl/oh-my-zsh.git
-[submodule "dircolors-solarized"]
-	path = dircolors-solarized
-	url = git://github.com/seebi/dircolors-solarized.git
