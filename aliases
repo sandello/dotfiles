@@ -38,7 +38,6 @@ alias d="cd ~/Dropbox"
 alias v="vim"
 
 # HexDump
-type hd > /dev/null || alias hd="hexdump -C"
 alias fs="stat -f '%z bytes'"
 
 # Smart shortcuts
