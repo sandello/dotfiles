@@ -6,6 +6,8 @@ set print static-members on
 set print vtbl on
 set demangle-style auto
 
+set prompt \033[0;34m(gdb) \033[0m
+
 define pw
     set $i = 0
     set $s = $arg0
@@ -35,3 +37,12 @@ define pwtr
     pw $arg0.c_str() $arg0.length()
 end
 
+python
+import os
+import sys
+sys.path.insert(0, os.path.expanduser("~/.gdb"))
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers(None)
+from yandex import ya_register
+ya_register()
+end
