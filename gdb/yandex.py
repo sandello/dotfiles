@@ -1,4 +1,5 @@
 import gdb
+import gdb.printing
 import re
 
 
@@ -17,19 +18,13 @@ class YtEnumBasePrinter:
         return self.val["Value"]
 
 
-def ya_lookup(val):
-    tag = val.type.tag
-    if tag is None:
-        return None
-    if re.match(r"^Stroka$", tag):
-        return StrokaPrinter(val)
-    if re.match(r"^NYT::TEnumBase<", tag):
-        return YtEnumBasePrinter(val)
-    return None
+def ya_printer():
+    pp = gdb.printing.RegexpCollectionPrettyPrinter("yandex")
+    pp.add_printer("Stroka", r"^Stroka$", StrokaPrinter)
+    pp.add_printer("YtEnumBase", r"^NYT::TEnumBase<", YtEnumBasePrinter)
+    return pp
 
 
-def ya_register():
-    gdb.pretty_printers.append(ya_lookup)
+def ya_register(obj):
+    gdb.printing.register_pretty_printer(obj, ya_printer())
 
-
-ya_register()
