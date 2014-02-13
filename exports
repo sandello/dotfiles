@@ -24,8 +24,14 @@ esac
 
 [[ -z "$TMPDIR" ]] && export TMP_DIR=/var/tmp
 
+[[ -d "$HOME/Projects/go" ]] && export GOPATH=$HOME/Projects/go
+
 function add_to_path() {
-    [ -d "$*" ] && PATH="$*:$PATH"
+    [[ -d "$*" ]] && PATH="$*:$PATH"
+}
+
+function add_to_node_path() {
+    [[ -d "$*" ]] && NODE_PATH="$*:$NODE_PATH"
 }
 
 add_to_path $HOME/bin
@@ -40,6 +46,12 @@ add_to_path /opt/local/bin
 add_to_path /opt/local/sbin
 add_to_path /usr/local/bin
 add_to_path /usr/local/sbin
+add_to_path $GOPATH/bin
 
-export NODE_PATH=/usr/lib/node_modules:/usr/local/lib/node_modules:/usr/local/share/npm/lib/node_modules
+add_to_node_path /usr/lib/node_modules
+add_to_node_path /usr/local/lib/node_modules
+add_to_node_path /usr/local/share/npm/lib/node_modules
+
 export PATH
+export NODE_PATH
+
