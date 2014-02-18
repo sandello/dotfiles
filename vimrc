@@ -155,7 +155,9 @@ if has("gui_running")
 	set transparency=5
 else
 	set background=dark
-	colorscheme hybrid
+	if !empty(globpath(&rtp, 'colors/hybrid.vim'))
+		colorscheme hybrid
+	endif
 endif
 
 " fswitch

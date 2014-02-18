@@ -170,6 +170,29 @@ class LinkResource(Resource):
         os.symlink(self.source, self.target)
 
 
+class VundleResource(Resource):
+    def __init__(self):
+        super(VundleResource, self).__init__(
+            ".vim/bundle/vundle",
+            None,
+            os.path.join(HOME, ".vim", "bundle", "vundle"))
+
+    def conflicts(self):
+        return False
+
+    def deploy(self):
+        os.makedirs(self.target)
+        subprocess.check_call([
+            "git",
+            "clone",
+            "https://github.com/gmarik/vundle.git",
+            self.target])
+        subprocess.check_call([
+            "vim",
+            "+BundleInstall",
+            "+qall"])
+
+
 def build_resource_list():
     resources = []
     for entry in os.listdir(DOTFILES):
@@ -180,6 +203,7 @@ def build_resource_list():
             build_resource_from_file(entry, resources)
         elif os.path.isdir(entry):
             build_resource_from_directory(entry, resources)
+    resources.append(VundleResource())
     return resources
 
 
