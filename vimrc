@@ -64,6 +64,7 @@ Bundle 'benmills/vimux'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
 Bundle 'derekwyatt/vim-fswitch'
+Bundle 'Blackrush/vim-gocode'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
