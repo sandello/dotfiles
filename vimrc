@@ -64,7 +64,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
 Bundle 'derekwyatt/vim-fswitch'
 Bundle 'Blackrush/vim-gocode'
-Bundle 'sjl/vitality.vim'
+Bundle 'aaronjensen/vitality.vim'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -159,6 +159,10 @@ endif
 
 " fswitch
 nmap <silent> <Leader>A :FSHere<cr>
+
+" vitality
+let g:vitality_fix_focus = 1
+let g:vitality_fix_cursor = 0
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "context"
