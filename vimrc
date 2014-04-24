@@ -60,15 +60,14 @@ Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'ervandew/supertab'
-Bundle 'benmills/vimux'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
 Bundle 'derekwyatt/vim-fswitch'
 Bundle 'Blackrush/vim-gocode'
+Bundle 'sjl/vitality.vim'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
-" set complete=.,t
 
 filetype plugin on
 filetype indent on
@@ -92,9 +91,6 @@ endfunction
 
 nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<CR>
 vmap <silent> <leader>s !sort<CR>
-
-nnoremap <leader>' :call ToggleBackground()<CR>
-vnoremap <leader>' :call ToggleBackground()<CR>
 
 nnoremap <leader>a :A<CR>
 nnoremap <leader>A :AV<CR>
@@ -163,13 +159,6 @@ endif
 
 " fswitch
 nmap <silent> <Leader>A :FSHere<cr>
-
-" vimux
-map <Leader>vp :VimuxPromptCommand<CR>
-map <Leader>vl :VimuxRunLastCommand<CR>
-map <Leader>vi :VimuxInspectRunner<CR>
-map <Leader>vq :VimuxCloseRunner<CR>
-map <Leader>vx :VimuxInterruptRunner<CR>
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "context"
