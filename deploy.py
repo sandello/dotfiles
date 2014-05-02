@@ -131,7 +131,7 @@ class TemplateResource(Resource):
                 if expected != actual:
                     for line in difflib.unified_diff(actual, expected):
                         sys.stdout.write(line)
-                    sys.stdout.flush(line)
+                    sys.stdout.flush()
                     return True
                 else:
                     return False
