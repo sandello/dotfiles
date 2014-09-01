@@ -2,7 +2,7 @@ Dotfiles for my environment.
 
 To deploy:
 ```
-curl https://raw.github.com/sandello/dotfiles/master/deploy.py | python - --bootstrap
+curl https://raw.githubusercontent.com/sandello/dotfiles/master/deploy.py | python - --bootstrap
 ```
 
 Thanks to:
