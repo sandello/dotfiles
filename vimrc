@@ -54,7 +54,6 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
-Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'scrooloose/nerdcommenter'
@@ -98,10 +97,11 @@ nmap <F2> :NERDTreeToggle<CR>
 nmap <F8> :make<CR>
 
 if has("autocmd")
-	au BufNewFile,Bufread *.c* call ToggleSemicolonHighlighting()
-	au BufNewFile,Bufread *.h* call ToggleSemicolonHighlighting()
+	au BufNewFile,BufRead *.c* call ToggleSemicolonHighlighting()
+	au BufNewFile,BufRead *.h* call ToggleSemicolonHighlighting()
 	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 	au BufEnter * :sy sync fromstart
+	au FileType go map <buffer> <leader>t :GoTest .<CR>
 endif
 
 " Status line
@@ -178,3 +178,4 @@ let g:ycm_min_num_identifier_candidate_chars = 3
 let g:syntastic_always_populate_loc_list = 1
 let g:ycm_extra_conf_globlist = ['~/yt/source/*']
 
+let g:syntastic_python_flake8_args = '--max-line-length=114'
