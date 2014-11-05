@@ -26,9 +26,7 @@ class YtIntrusivePtrPrinter:
         self.val = val
 
     def to_string(self):
-        print self.val.dynamic_type
-        print self.val.type
-        return "%s" % self.val["T_"]
+        return "intrusive pointer to %s" % self.val["T_"]
 
 
 def ya_printer():

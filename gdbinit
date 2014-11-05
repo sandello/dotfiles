@@ -4,9 +4,8 @@ set print object on
 set print pretty on
 set print static-members on
 set print vtbl on
-set demangle-style auto
 
-set prompt \033[0;34m(gdb) \033[0m
+set demangle-style auto
 
 define pw
     set $i = 0
