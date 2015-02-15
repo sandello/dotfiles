@@ -47,4 +47,10 @@ which -s dircolors > /dev/null 2>&1 && \
 
 [[ -s "/etc/profile.d/rvm.sh" ]] && source "/etc/profile.d/rvm.sh"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-[[ -s "$HOME/.tmuxinator/scripts/tmuxinator" ]] && source "$HOME/.tmuxinator/scripts/tmuxinator"
+
+# The next line updates PATH for the Google Cloud SDK.
+[[ -d "$HOME/google-cloud-sdk" ]] && source "$HOME/google-cloud-sdk/path.bash.inc"
+
+# The next line enables bash completion for gcloud.
+[[ -d "$HOME/google-cloud-sdk" ]] && source "$HOME/google-cloud-sdk/completion.bash.inc"
+
