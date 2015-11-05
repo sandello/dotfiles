@@ -113,45 +113,6 @@ class Resource(object):
         return "<Resource '{}''>".format(self.entry)
 
 
-class TemplateResource(Resource):
-    class InteractiveDict(dict):
-        def __missing__(self, key):
-            self[key] = input(key)
-            return self[key]
-
-    def __init__(self, *args, **kwargs):
-        super(TemplateResource, self).__init__(*args, **kwargs)
-        self.cache = self.InteractiveDict()
-
-    def conflicts(self):
-        if os.path.lexists(self.target):
-            with open(self.target, "r") as handle:
-                expected = self.render()
-                actual = handle.read()
-                if expected != actual:
-                    for line in difflib.unified_diff(actual, expected):
-                        sys.stdout.write(line)
-                    sys.stdout.flush()
-                    return True
-                else:
-                    return False
-        else:
-            return False
-
-    def deploy(self):
-        with open(self.target, "w") as handle:
-            report(self.entry, "template", "green")
-            handle.write(self.render())
-
-    def render(self):
-        def cb(match):
-            return self.cache[match.group(1)]
-        with open(self.source, "r") as handle:
-            result = handle.read()
-            result = re.sub(r"<%=\s*(.+?)\s* %>", cb, result)
-            return result
-
-
 class LinkResource(Resource):
     def __init__(self, *args, **kwargs):
         super(LinkResource, self).__init__(*args, **kwargs)
@@ -211,10 +172,6 @@ def build_resource_from_file(entry, resources):
     source = os.path.join(DOTFILES, entry)
     target = os.path.join(HOME, "." + entry)
     cls = LinkResource
-
-    if entry.endswith(".tt"):
-        target = target[:-3]
-        cls = TemplateResource
 
     resources.append(cls(entry, source, target))
 
