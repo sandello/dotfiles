@@ -50,19 +50,22 @@ set t_Sf=^[3%dm
 
 filetype off
 
+set rtp+=~/.fzf
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'ervandew/supertab'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
+Bundle 'sirver/ultisnips'
 Bundle 'derekwyatt/vim-fswitch'
-Bundle 'Blackrush/vim-gocode'
 Bundle 'aaronjensen/vitality.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'fatih/vim-go'
+Bundle 'PeterRincker/vim-argumentative'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -87,21 +90,39 @@ function! EnableAutosave()
 	autocmd CursorHoldI * silent update
 endfunction
 
-nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<CR>
-vmap <silent> <leader>s !sort<CR>
+nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<cr>
+vmap <silent> <leader>s !sort<cr>
 
-nnoremap <leader>a :A<CR>
-nnoremap <leader>A :AV<CR>
+nnoremap <leader>a :A<cr>
+nnoremap <leader>A :AV<cr>
 
-nmap <F2> :NERDTreeToggle<CR>
-nmap <F8> :make<CR>
+nmap <F2> :NERDTreeToggle<cr>
+nmap <F8> :make<cr>
 
 if has("autocmd")
 	au BufNewFile,BufRead *.c* call ToggleSemicolonHighlighting()
 	au BufNewFile,BufRead *.h* call ToggleSemicolonHighlighting()
 	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 	au BufEnter * :sy sync fromstart
-	au FileType go map <buffer> <leader>t :GoTest .<CR>
+
+	au FileType go nmap <leader>s <Plug>(go-implements)
+	au FileType go nmap <leader>i <Plug>(go-info)
+	au FileType go nmap <leader>gd <Plug>(go-doc)
+	au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+	au FileType go nmap <leader>r <Plug>(go-run)
+	au FileType go nmap <leader>b <Plug>(go-build)
+	au FileType go nmap <leader>t <Plug>(go-test)
+	au FileType go nmap <leader>c <Plug>(go-coverage)
+	au FileType go nmap <leader>ds <Plug>(go-def-split)
+	au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+	au FileType go nmap <leader>dt <Plug>(go-def-tab)
+	au FileType go nmap <leader>e <Plug>(go-rename)
+
+	au FileType c,cpp nnoremap <leader>jc :YcmForceCompileAndDiagnostics<cr>
+	au FileType c,cpp nnoremap <leader>jg :YcmCompleter GoTo<cr>
+	au FileType c,cpp nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
+	au FileType c,cpp nnoremap <leader>jD :YcmCompleter GoToDefinition<cr>
+	au FileType c,cpp nnoremap <leader>jt :YcmCompleter GetType<cr>
 endif
 
 " Status line
@@ -127,7 +148,7 @@ set foldlevel=128
 set foldopen=block,hor,mark,percent,quickfix,tag
 
 " Color Scheme
-set background=light
+colorscheme Tomorrow-Night-Eighties
 
 " GUI features
 if (&termencoding == "utf-8") || has("gui_running")
@@ -156,26 +177,30 @@ else
 	endif
 endif
 
+" ack
+let g:ackprg = "ag --vimgrep"
+
 " fswitch
-nmap <silent> <Leader>A :FSHere<cr>
+nmap <silent> <leader>A :FSHere<cr>
 
 " vitality
 let g:vitality_fix_focus = 1
 let g:vitality_fix_cursor = 0
 
-" SuperTab
-let g:SuperTabDefaultCompletionType = "context"
+" argumentative
+nmap <; <Plug>Argumentative_MoveLeft
+nmap >; <Plug>Argumentative_MoveRight
 
 " YouCompleteMe
-nnoremap <leader>jc :YcmForceCompileAndDiagnostics<CR>
-nnoremap <leader>jg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jc :YcmCompleter GoToDeclaration<CR>
-
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_identifier_candidate_chars = 3
+let g:ycm_extra_conf_globlist = ['~/yt/*']
 
 let g:syntastic_always_populate_loc_list = 1
-let g:ycm_extra_conf_globlist = ['~/yt/source/*']
-
 let g:syntastic_python_flake8_args = '--max-line-length=114'
+
+let g:UltiSnipsExpandTrigger = '<c-l>'
+let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+
+nnoremap <c-p> :FZF<cr>
