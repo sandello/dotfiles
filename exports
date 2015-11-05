@@ -24,8 +24,6 @@ esac
 
 [[ -z "$TMPDIR" ]] && export TMP_DIR=/var/tmp
 
-[[ -d "$HOME/Projects/go" ]] && export GOPATH=$HOME/Projects/go
-
 function add_to_path() {
     [[ -d "$*" ]] && PATH="$*:$PATH"
 }
@@ -39,6 +37,7 @@ add_to_path $HOME/.bin
 add_to_path $HOME/.bin_private
 add_to_path $HOME/.cabal/bin
 add_to_path $HOME/.rvm/bin
+add_to_path $HOME/.fzf/bin
 add_to_path $HOME/Cellar/bin
 add_to_path $HOME/anaconda/bin
 add_to_path /opt/local/bin
@@ -50,6 +49,10 @@ add_to_path $GOPATH/bin
 add_to_node_path /usr/lib/node_modules
 add_to_node_path /usr/local/lib/node_modules
 add_to_node_path /usr/local/share/npm/lib/node_modules
+
+# Deduplicate them.
+PATH=`awk -F: '{for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); }}' <<< $PATH`
+NODE_PATH=`awk -F: '{for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); }}' <<< $NODE_PATH`
 
 export PATH
 export NODE_PATH

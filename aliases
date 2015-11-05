@@ -34,14 +34,12 @@ alias w2u="iconv -f cp1251 -t utf-8"
 alias u2w="iconv -f utf-8 -t cp1251"
 
 # Dumb shortcuts
-alias d="cd ~/Dropbox"
 alias v="vim"
 
 # HexDump
 alias fs="stat -f '%z bytes'"
 
 # Smart shortcuts
-alias headerguard="dd if=/dev/urandom of=/dev/stdout bs=1024 count=4 2> /dev/null | md5sum - | cut -c 1-16"
 alias realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])' $@"
 alias rmorig="find . -name '*.orig' -delete"
 alias rmbom="perl -CD -pe 'tr/\x{feff}//d'"

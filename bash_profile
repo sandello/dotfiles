@@ -1,3 +1,4 @@
+# vim: set ft=sh:
 function reload() {
     source "$HOME/.bash_profile"
 }
@@ -13,10 +14,10 @@ done
 unset item
 
 [[ -f /etc/bash_completion ]] && source /etc/bash_completion
-[[ -f /etc/bash_completion ]] && source $HOME/.dotfiles/bash_completion_knife
+[[ -f /etc/bash_completion ]] && source $HOME/.dotfiles/bash_completion_git
 
-[[ -e "$HOME/.ssh/config" ]] && \
-    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
+[[ -e $HOME/.ssh/config ]] && \
+    complete -o default -o nospace -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
 complete -o default -o nospace -F _git_add ga
 complete -o default -o nospace -F _git_add gai
@@ -54,3 +55,4 @@ which -s dircolors > /dev/null 2>&1 && \
 # The next line enables bash completion for gcloud.
 [[ -d "$HOME/google-cloud-sdk" ]] && source "$HOME/google-cloud-sdk/completion.bash.inc"
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
