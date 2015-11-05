@@ -1,6 +1,6 @@
 [user]
-    name = <%= Your Name %>
-    email = <%= Your Email %>
+    name = Ivan Puzyrevskiy
+    email = sandello@yandex-team.ru
 
 [core]
     excludes = ~/.gitignore
