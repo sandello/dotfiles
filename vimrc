@@ -32,7 +32,6 @@ set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
-set autochdir
 set hidden
 
 " Create directories, if required.
@@ -90,6 +89,26 @@ function! EnableAutosave()
 	autocmd CursorHoldI * silent update
 endfunction
 
+function! SetProjectRoot()
+	lcd %:p:h
+	let good_dir = fnamemodify(".", ":p:h")
+	while 1
+		lcd ..
+		let git_dir = system("git rev-parse --show-toplevel")
+		let is_not_git_dir = matchstr(git_dir, '^fatal:.*')
+		if good_dir == git_dir
+			break
+		endif
+		if empty(is_not_git_dir)
+			let good_dir = git_dir
+			lcd `=good_dir`
+		else
+			break
+		endif
+	endwhile
+	lcd `=good_dir`
+endfunction
+
 nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<cr>
 vmap <silent> <leader>s !sort<cr>
 
@@ -102,8 +121,9 @@ nmap <F8> :make<cr>
 if has("autocmd")
 	au BufNewFile,BufRead *.c* call ToggleSemicolonHighlighting()
 	au BufNewFile,BufRead *.h* call ToggleSemicolonHighlighting()
-	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+
 	au BufEnter * :sy sync fromstart
+	au BufRead * call SetProjectRoot()
 
 	au FileType go nmap <leader>s <Plug>(go-implements)
 	au FileType go nmap <leader>i <Plug>(go-info)

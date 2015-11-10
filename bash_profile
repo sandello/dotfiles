@@ -14,34 +14,9 @@ done
 unset item
 
 [[ -f /etc/bash_completion ]] && source /etc/bash_completion
-[[ -f /etc/bash_completion ]] && source $HOME/.dotfiles/bash_completion_git
 
 [[ -e $HOME/.ssh/config ]] && \
     complete -o default -o nospace -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
-
-complete -o default -o nospace -F _git_add ga
-complete -o default -o nospace -F _git_add gai
-
-complete -o default -o nospace -F _git_branch gb
-complete -o default -o nospace -F _git_branch gba
-
-complete -o default -o nospace -F _git_commit gc
-
-complete -o default -o nospace -F _git_checkout gco
-
-complete -o default -o nospace -F _git_diff gd
-complete -o default -o nospace -F _git_diff gdc
-
-complete -o default -o nospace -F _git_status gs
-complete -o default -o nospace -F _git_status gst
-
-complete -o default -o nospace -F _git_log glg
-complete -o default -o nospace -F _git_log gLg
-complete -o default -o nospace -F _git_log gll
-complete -o default -o nospace -F _git_log gLL
-
-complete -o default -o nospace -F _git_pull gl
-complete -o default -o nospace -F _git_push gp
 
 which -s dircolors > /dev/null 2>&1 && \
     eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
@@ -56,3 +31,28 @@ which -s dircolors > /dev/null 2>&1 && \
 [[ -d "$HOME/google-cloud-sdk" ]] && source "$HOME/google-cloud-sdk/completion.bash.inc"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+[[ -f /etc/bash_completion ]] && source $HOME/.dotfiles/bash_completion_git
+
+__git_complete ga _git_add
+__git_complete gai _git_add
+
+__git_complete gb _git_branch
+__git_complete gba _git_branch
+
+__git_complete gc _git_commit
+
+__git_complete gco _git_checkout
+
+__git_complete gd _git_diff
+__git_complete gdc _git_diff
+
+__git_complete glg _git_log
+__git_complete gLg _git_log
+__git_complete gll _git_log
+__git_complete gLL _git_log
+
+__git_complete gl _git_pull
+
+__git_complete gp _git_push
+
