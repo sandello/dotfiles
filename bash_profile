@@ -32,7 +32,7 @@ which -s dircolors > /dev/null 2>&1 && \
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-[[ -f /etc/bash_completion ]] && source $HOME/.dotfiles/bash_completion_git
+[[ -f "$HOME/.dotfiles/bash_completion_git" ]] && source "$HOME/.dotfiles/bash_completion_git"
 
 __git_complete ga _git_add
 __git_complete gai _git_add
