@@ -214,7 +214,7 @@ nmap >; <Plug>Argumentative_MoveRight
 " YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_identifier_candidate_chars = 3
-let g:ycm_extra_conf_globlist = ['~/yt/*']
+let g:ycm_extra_conf_globlist = ['~/yt/*', '/yt/*']
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_python_flake8_args = '--max-line-length=114'
