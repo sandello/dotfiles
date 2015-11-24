@@ -13,6 +13,9 @@ for item in $HOME/.{aliases,aliases_private,bash_prompt,exports,exports_private}
 done
 unset item
 
+[[ ! "$PROMPT_COMMAND" == *"history -a"* ]] && \
+  PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+
 [[ -f /etc/bash_completion ]] && source /etc/bash_completion
 
 [[ -e $HOME/.ssh/config ]] && \

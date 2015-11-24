@@ -1,6 +1,6 @@
-export HISTSIZE=32768
+export HISTSIZE=65536
 export HISTFILESIZE="$HISTSIZE"
-export HISTCONTROL="ignoreboth,ignoredups"
+export HISTCONTROL="ignoreboth:erasedups"
 
 export DEBFULLNAME="Ivan Pouzyrevsky"
 export DEBEMAIL="sandello@yandex-team.ru"
