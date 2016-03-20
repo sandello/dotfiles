@@ -35,11 +35,10 @@ function add_to_node_path() {
 add_to_path $HOME/bin
 add_to_path $HOME/.bin
 add_to_path $HOME/.bin_private
-add_to_path $HOME/.cabal/bin
+add_to_path $HOME/.local/bin
 add_to_path $HOME/.rvm/bin
 add_to_path $HOME/.fzf/bin
 add_to_path $HOME/Cellar/bin
-add_to_path $HOME/anaconda/bin
 add_to_path /opt/local/bin
 add_to_path /opt/local/sbin
 add_to_path /usr/local/bin

@@ -54,17 +54,25 @@ set rtp+=~/.fzf
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'Blackrush/vim-gocode'
+Bundle 'PeterRincker/vim-argumentative'
+Bundle 'Shougo/vimproc.vim'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'aaronjensen/vitality.vim'
+Bundle 'bitc/vim-hdevtools'
+Bundle 'derekwyatt/vim-fswitch'
+Bundle 'eagletmt/ghcmod-vim'
+Bundle 'eagletmt/neco-ghc'
+Bundle 'ervandew/supertab'
+Bundle 'fatih/vim-go'
+Bundle 'gmarik/vundle'
+Bundle 'mileszs/ack.vim'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'sirver/ultisnips'
-Bundle 'derekwyatt/vim-fswitch'
-Bundle 'aaronjensen/vitality.vim'
-Bundle 'mileszs/ack.vim'
-Bundle 'fatih/vim-go'
-Bundle 'PeterRincker/vim-argumentative'
+Bundle 'tpope/vim-fugitive'
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -143,6 +151,14 @@ if has("autocmd")
 	au FileType c,cpp nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
 	au FileType c,cpp nnoremap <leader>jD :YcmCompleter GoToDefinition<cr>
 	au FileType c,cpp nnoremap <leader>jt :YcmCompleter GetType<cr>
+
+	au FileType haskell nnoremap <buffer> <leader>x :HdevtoolsType<CR>
+	au FileType haskell nnoremap <buffer> <leader>c :HdevtoolsClear<CR>
+	au FileType haskell nnoremap <silent> tw :GhcModTypeInsert<CR>
+	au FileType haskell nnoremap <silent> ts :GhcModSplitFunCase<CR>
+	au FileType haskell nnoremap <silent> tq :GhcModType<CR>
+	au FileType haskell nnoremap <silent> te :GhcModTypeClear<CR>
+	au FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
 
 " Status line
@@ -160,6 +176,9 @@ set statusline+=%=                         " Right align
 set statusline+=%b\ /\ 0x%04B              " Current character (decimal / hexadecimal)
 set statusline+=\ \ \ \                    " Padding
 set statusline+=%-14.(%l,%c%V%)\ %<%P      " Offset
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 " Folding
 set foldmethod=marker
@@ -202,6 +221,7 @@ let g:ackprg = "ag --vimgrep"
 
 " fswitch
 nmap <silent> <leader>A :FSHere<cr>
+nmap <leader>s :SyntasticToggleMode<CR>
 
 " vitality
 let g:vitality_fix_focus = 1
@@ -215,8 +235,12 @@ nmap >; <Plug>Argumentative_MoveRight
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_identifier_candidate_chars = 3
 let g:ycm_extra_conf_globlist = ['~/yt/*', '/yt/*']
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 let g:syntastic_python_flake8_args = '--max-line-length=114'
 
 let g:UltiSnipsExpandTrigger = '<c-l>'
