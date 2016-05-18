@@ -50,29 +50,34 @@ set t_Sf=^[3%dm
 filetype off
 
 set rtp+=~/.fzf
+set rtp+=~/.vim/bundle/Vundle.vim
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
-Bundle 'Blackrush/vim-gocode'
-Bundle 'PeterRincker/vim-argumentative'
-Bundle 'Shougo/vimproc.vim'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'aaronjensen/vitality.vim'
-Bundle 'bitc/vim-hdevtools'
-Bundle 'derekwyatt/vim-fswitch'
-Bundle 'eagletmt/ghcmod-vim'
-Bundle 'eagletmt/neco-ghc'
-Bundle 'ervandew/supertab'
-Bundle 'fatih/vim-go'
-Bundle 'gmarik/vundle'
-Bundle 'mileszs/ack.vim'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'sirver/ultisnips'
-Bundle 'tpope/vim-fugitive'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'Blackrush/vim-gocode'
+Plugin 'PeterRincker/vim-argumentative'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'aaronjensen/vitality.vim'
+Plugin 'bitc/vim-hdevtools'
+Plugin 'derekwyatt/vim-fswitch'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'ervandew/supertab'
+Plugin 'fatih/vim-go'
+Plugin 'gmarik/vundle'
+Plugin 'mileszs/ack.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'sirver/ultisnips'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+call vundle#end()
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -163,22 +168,6 @@ endif
 
 " Status line
 set laststatus=2
-set statusline=
-set statusline+=%-3.3n\                    " Buffer number
-set statusline+=%f\                        " File name
-set statusline+=%h%m%r%w                   " Flags (help, modified, read-only, preview)
-set statusline+=\[                         " Opening bracket
-set statusline+=%{strlen(&ft)?&ft:'none'}, " File type
-set statusline+=%{&encoding},              " Encoding
-set statusline+=%{&fileformat}             " File format
-set statusline+=\]\                        " Closing bracket
-set statusline+=%=                         " Right align
-set statusline+=%b\ /\ 0x%04B              " Current character (decimal / hexadecimal)
-set statusline+=\ \ \ \                    " Padding
-set statusline+=%-14.(%l,%c%V%)\ %<%P      " Offset
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 " Folding
 set foldmethod=marker
@@ -215,6 +204,9 @@ else
 		colorscheme hybrid
 	endif
 endif
+
+" airline
+let g:airline_theme = "tomorrow"
 
 " ack
 let g:ackprg = "ag --vimgrep"
