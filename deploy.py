@@ -16,7 +16,7 @@ IGNORE = [
     ".gitmodules",
     "bootstrap.sh",
     "deploy.py",
-    "README",
+    "README.md",
 ]
 
 
@@ -92,32 +92,37 @@ def ask(message):
 # Resources.
 
 class Resource(object):
-    def __init__(self, entry, source, target):
+    def __init__(self, entry):
         self.entry = entry
-        self.source = source
-        self.target = target
-
-    def exists(self):
-        return os.path.lexists(self.target)
-
-    def conflicts(self):
-        return os.path.lexists(self.target)
-
-    def undeploy(self):
-        return os.unlink(self.target)
-
-    def deploy(self):
-        raise NotImplementedError
 
     def repr(self):
         return "<Resource '{}''>".format(self.entry)
 
 
 class LinkResource(Resource):
-    def __init__(self, *args, **kwargs):
-        super(LinkResource, self).__init__(*args, **kwargs)
+    def __init__(self, entry, source, target):
+        super(LinkResource, self).__init__(entry)
+        self.source = source
+        self.target = target
 
-    def conflicts(self):
+    def provision(self):
+        if self._conflicts():
+            report(self.entry, "conflict", "yellow")
+            if not ask("Overwrite {}".format(self.target)):
+                report(self.entry, "skip", "green")
+                return
+            else:
+                report(self.entry, "unlink", "yellow")
+                os.unlink(self.target)
+
+        if os.path.lexists(self.target):
+            report(self.entry, "link exists", "green")
+            return
+
+        report(self.entry, "link", "blue")
+        os.symlink(self.source, self.target)
+
+    def _conflicts(self):
         if os.path.lexists(self.target):
             if os.path.islink(self.target):
                 return os.readlink(self.target) != self.source
@@ -126,37 +131,92 @@ class LinkResource(Resource):
         else:
             return False
 
-    def deploy(self):
-        report(self.entry, "symlink", "green")
-        os.symlink(self.source, self.target)
+
+class RsyncResource(Resource):
+    def __init__(self, entry, source, target):
+        super(RsyncResource, self).__init__(entry)
+        self.source = source
+        self.target = target
+
+    def provision(self):
+        if not os.path.lexists(self.target):
+            os.makedirs(self.target)
+        report(self.entry, "rsync", "blue")
+        subprocess.check_call([
+            "rsync",
+            "--exclude", ".git",
+            "--exclude", ".DS_Store",
+            "--archive",
+            "--verbose",
+            "--human-readable",
+            "--no-perms",
+            self.source,
+            self.target])
 
 
-class VundleResource(Resource):
+class GitResource(Resource):
+    def __init__(self, entry, repo, path):
+        super(GitResource, self).__init__(entry)
+        self.repo = repo
+        self.path = path
+
+    def provision(self):
+        if os.path.lexists(self.path):
+            report(self.entry, "git exists", "green")
+            return
+
+        report(self.entry, "git clone", "blue")
+        subprocess.check_call(["git", "clone", self.repo, self.path])
+
+
+class VundleResource(GitResource):
+    VUNDLE_REPO = "https://github.com/VundleVim/Vundle.vim.git"
+    VUNDLE_PATH = os.path.join(HOME, ".vim", "bundle", "Vundle.vim")
+
     def __init__(self):
         super(VundleResource, self).__init__(
-            ".vim/bundle/vundle",
-            None,
-            os.path.join(HOME, ".vim", "bundle", "vundle"))
+            ".vim/bundle/Vundle.vim",
+            self.VUNDLE_REPO,
+            self.VUNDLE_PATH)
 
-    def conflicts(self):
-        return False
+    def provision(self):
+        super(VundleResource, self).provision()
 
-    def deploy(self):
-        os.makedirs(self.target)
+        report(self.entry, "vim install", "blue")
+        with open("/dev/null", "w") as dev_null:
+            subprocess.check_call(
+                ["vim", "+PluginInstall", "+qall"],
+                stdout=dev_null, stderr=dev_null)
+
+
+class FzfResource(GitResource):
+    FZF_PATH = os.path.join(HOME, ".fzf")
+    FZF_REPO = "https://github.com/junegunn/fzf.git"
+
+    def __init__(self):
+        super(FzfResource, self).__init__(
+            ".fzf",
+            self.FZF_REPO,
+            self.FZF_PATH)
+
+    def provision(self):
+        super(FzfResource, self).provision()
+
+        if os.path.lexists(os.path.join(self.FZF_PATH, "bin", "fzf")):
+            report(self.entry, "fzf exists", "green")
+            return
+
+        report(self.entry, "fzf install", "blue")
         subprocess.check_call([
-            "git",
-            "clone",
-            "https://github.com/gmarik/vundle.git",
-            self.target])
-        subprocess.check_call([
-            "vim",
-            "+BundleInstall",
-            "+qall"])
+            os.path.join(self.FZF_PATH, "install"),
+            "--key-bindings",
+            "--completion",
+            "--no-update-rc"])
 
 
 def build_resource_list():
     resources = []
-    for entry in os.listdir(DOTFILES):
+    for entry in sorted(os.listdir(DOTFILES)):
         if entry in IGNORE:
             report(entry, "ignore")
             continue
@@ -165,6 +225,7 @@ def build_resource_list():
         elif os.path.isdir(entry):
             build_resource_from_directory(entry, resources)
     resources.append(VundleResource())
+    resources.append(FzfResource())
     return resources
 
 
@@ -182,6 +243,11 @@ def build_resource_from_directory(entry, resources):
             entry,
             os.path.join(DOTFILES, entry),
             os.path.join(HOME, entry)))
+    elif entry == "gdb" or entry == "vim":
+        resources.append(RsyncResource(
+            entry,
+            os.path.join(DOTFILES, entry) + "/",
+            os.path.join(HOME, "." + entry)))
     else:
         report(entry, "omit")
 
@@ -213,18 +279,7 @@ def main():
             raise RuntimeError("Whoops, you are running from a bad-bad place!")
         print "Deploying {} -> {}...".format(DOTFILES, HOME)
         for resource in build_resource_list():
-            if resource.conflicts():
-                report(resource.entry, "conflict")
-                if not ask("Overwrite {}".format(resource.target)):
-                    report(resource.entry, "skip")
-                    continue
-                else:
-                    report(resource.entry, "remove")
-                    resource.undeploy()
-            if resource.exists():
-                report(resource.entry, "exists", "green")
-            else:
-                resource.deploy()
+            resource.provision()
 
 
 if __name__ == "__main__":
