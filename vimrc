@@ -10,8 +10,8 @@ set cinoptions=:s,g0,(s,ls
 
 set shiftwidth=4
 set tabstop=4
-set textwidth=120
-set colorcolumn=81
+set textwidth=114
+set colorcolumn=115
 set expandtab
 
 set encoding=utf-8
@@ -185,28 +185,9 @@ else
 	set list listchars=tab:>-,trail:.,extends:>
 endif
 
-if has("gui_running")
-	set background=light
-	colorscheme solarized
-
-	set gfn=Menlo\ Regular:h12
-	set gfw=Menlo\ Regular:h12
-
-	set columns=120
-	set lines=48
-
-	set cursorline
-
-	set transparency=5
-else
-	set background=dark
-	if !empty(globpath(&rtp, 'colors/hybrid.vim'))
-		colorscheme hybrid
-	endif
-endif
-
 " airline
 let g:airline_theme = "tomorrow"
+let g:airline_powerline_fonts = 1
 
 " ack
 let g:ackprg = "ag --vimgrep"
