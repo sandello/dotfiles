@@ -13,7 +13,6 @@ export PDSH_SSH_ARGS_APPEND="-q -A -o StrictHostKeyChecking=no -o UserKnownHosts
 case $(uname -s) in
     Darwin*)
         export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
-        export EDITOR="subl -w"
         export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
         ;;
     *)
