@@ -54,21 +54,20 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Blackrush/vim-gocode'
+" Plugin 'bitc/vim-hdevtools'
+" Plugin 'eagletmt/ghcmod-vim'
+" Plugin 'eagletmt/neco-ghc'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'aaronjensen/vitality.vim'
-Plugin 'bitc/vim-hdevtools'
 Plugin 'derekwyatt/vim-fswitch'
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
 Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
-Plugin 'gmarik/vundle'
 Plugin 'mileszs/ack.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'plasticboy/vim-markdown'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
@@ -185,12 +184,18 @@ else
 	set list listchars=tab:>-,trail:.,extends:>
 endif
 
+if has("gui_running")
+	set guifont=Source\ Code\ Pro:h12
+endif
+
 " airline
 let g:airline_theme = "tomorrow"
 let g:airline_powerline_fonts = 1
 
 " ack
-let g:ackprg = "ag --vimgrep"
+if executable('ag')
+	let g:ackprg = 'ag --vimgrep'
+endif
 
 " fswitch
 nmap <silent> <leader>A :FSHere<cr>

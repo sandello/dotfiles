@@ -29,3 +29,6 @@
 
 [push]
     default = simple
+
+[http "https://gopkg.in"]
+    followRedirects = true
