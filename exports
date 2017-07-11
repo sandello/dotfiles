@@ -38,6 +38,7 @@ add_to_path $HOME/.local/bin
 add_to_path $HOME/.rvm/bin
 add_to_path $HOME/.fzf/bin
 add_to_path $HOME/Cellar/bin
+add_to_path $HOME/yatool
 add_to_path /opt/local/bin
 add_to_path /opt/local/sbin
 add_to_path /usr/local/bin
