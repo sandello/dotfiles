@@ -7,6 +7,9 @@ set print vtbl on
 
 set demangle-style auto
 
+add-auto-load-safe-path /lib
+add-auto-load-safe-path /usr/lib
+
 python
 import os
 import sys

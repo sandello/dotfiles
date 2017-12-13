@@ -54,27 +54,24 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
-" Plugin 'bitc/vim-hdevtools'
-" Plugin 'eagletmt/ghcmod-vim'
-" Plugin 'eagletmt/neco-ghc'
-Plugin 'PeterRincker/vim-argumentative'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'VundleVim/Vundle.vim'
 Plugin 'aaronjensen/vitality.vim'
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'PeterRincker/vim-argumentative'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
+Plugin 'Shougo/vimproc.vim'
 Plugin 'sirver/ultisnips'
 Plugin 'tpope/vim-fugitive'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'VundleVim/Vundle.vim'
 
 call vundle#end()
 
@@ -128,7 +125,12 @@ nnoremap <leader>a :A<cr>
 nnoremap <leader>A :AV<cr>
 
 nmap <F2> :NERDTreeToggle<cr>
-nmap <F8> :make<cr>
+
+nnoremap <c-p> :FZF<cr>
+
+map <c-n> :cnext<cr>
+map <c-m> :cprevious<cr>
+nnoremap <leader>x :cclose<cr>
 
 if has("autocmd")
 	au BufNewFile,BufRead *.c* call ToggleSemicolonHighlighting()
@@ -150,19 +152,11 @@ if has("autocmd")
 	au FileType go nmap <leader>dt <Plug>(go-def-tab)
 	au FileType go nmap <leader>e <Plug>(go-rename)
 
-	au FileType c,cpp nnoremap <leader>jc :YcmForceCompileAndDiagnostics<cr>
-	au FileType c,cpp nnoremap <leader>jg :YcmCompleter GoTo<cr>
-	au FileType c,cpp nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
-	au FileType c,cpp nnoremap <leader>jD :YcmCompleter GoToDefinition<cr>
-	au FileType c,cpp nnoremap <leader>jt :YcmCompleter GetType<cr>
-
-	au FileType haskell nnoremap <buffer> <leader>x :HdevtoolsType<CR>
-	au FileType haskell nnoremap <buffer> <leader>c :HdevtoolsClear<CR>
-	au FileType haskell nnoremap <silent> tw :GhcModTypeInsert<CR>
-	au FileType haskell nnoremap <silent> ts :GhcModSplitFunCase<CR>
-	au FileType haskell nnoremap <silent> tq :GhcModType<CR>
-	au FileType haskell nnoremap <silent> te :GhcModTypeClear<CR>
-	au FileType haskell setlocal omnifunc=necoghc#omnifunc
+	au FileType c,cpp nnoremap <leader>c :YcmForceCompileAndDiagnostics<cr>
+	au FileType c,cpp nnoremap <leader>g :YcmCompleter GoTo<cr>
+	au FileType c,cpp nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
+	au FileType c,cpp nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
+	au FileType c,cpp nnoremap <leader>t :YcmCompleter GetType<cr>
 endif
 
 " Status line
@@ -224,5 +218,3 @@ let g:syntastic_python_flake8_args = '--max-line-length=114'
 let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-
-nnoremap <c-p> :FZF<cr>
