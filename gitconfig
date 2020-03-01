@@ -5,6 +5,7 @@
 [core]
     excludes = ~/.gitignore
     quotepath = false
+    autocrlf = input
 
 [color]
     diff = auto

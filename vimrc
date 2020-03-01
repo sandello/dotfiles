@@ -28,11 +28,11 @@ set number
 set wildignore=*.o
 set viminfo='20,<50,s10,h
 
+set hidden
+
 set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
-
-set hidden
 
 " Create directories, if required.
 if !isdirectory(expand("$HOME/.vim/backup"))
@@ -49,115 +49,89 @@ set t_Sf=^[3%dm
 
 filetype off
 
-set rtp+=~/.fzf
-set rtp+=~/.vim/bundle/Vundle.vim
+if isdirectory("/usr/local/opt/fzf")
+	set rtp+=/usr/local/opt/fzf
+	nnoremap <c-p> :FZF<cr>
+endif
 
-call vundle#begin()
+if isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
+	set rtp+=~/.vim/bundle/Vundle.vim
 
-Plugin 'aaronjensen/vitality.vim'
-Plugin 'derekwyatt/vim-fswitch'
-Plugin 'ervandew/supertab'
-Plugin 'fatih/vim-go'
-Plugin 'mileszs/ack.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'PeterRincker/vim-argumentative'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'sirver/ultisnips'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'VundleVim/Vundle.vim'
+	call vundle#begin()
 
-call vundle#end()
+	Plugin 'VundleVim/Vundle.vim'
+	Plugin 'Shougo/vimproc.vim'
+
+	Plugin 'vim-airline/vim-airline'
+	Plugin 'vim-airline/vim-airline-themes'
+	let g:airline_theme = 'tomorrow'
+	let g:airline_powerline_fonts = 1
+
+	Plugin 'aaronjensen/vitality.vim'
+	let g:vitality_fix_focus = 1
+	let g:vitality_fix_cursor = 0
+
+	Plugin 'derekwyatt/vim-fswitch'
+	nmap <silent> <leader>A :FSHere<cr>
+
+	Plugin 'nathanaelkane/vim-indent-guides'
+
+	Plugin 'plasticboy/vim-markdown'
+
+	Plugin 'scrooloose/nerdcommenter'
+
+	Plugin 'scrooloose/nerdtree'
+	nmap <F2> :NERDTreeToggle<cr>
+
+	Plugin 'scrooloose/syntastic'
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_auto_loc_list = 0
+	let g:syntastic_check_on_open = 0
+	let g:syntastic_check_on_wq = 0
+	let g:syntastic_python_flake8_args = '--max-line-length=114'
+	nmap <leader>s :SyntasticToggleMode<CR>
+
+	Plugin 'tpope/vim-fugitive'
+
+	Plugin 'ervandew/supertab'
+
+	Plugin 'sirver/ultisnips'
+	let g:UltiSnipsExpandTrigger = '<c-l>'
+	let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+	let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+
+	Plugin 'fatih/vim-go'
+	au FileType go nmap <leader>s  <Plug>(go-implements)
+	au FileType go nmap <leader>i  <Plug>(go-info)
+	au FileType go nmap <leader>gd <Plug>(go-doc)
+	au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+	au FileType go nmap <leader>r  <Plug>(go-run)
+	au FileType go nmap <leader>b  <Plug>(go-build)
+	au FileType go nmap <leader>t  <Plug>(go-test)
+	au FileType go nmap <leader>c  <Plug>(go-coverage)
+	au FileType go nmap <leader>ds <Plug>(go-def-split)
+	au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+	au FileType go nmap <leader>dt <Plug>(go-def-tab)
+	au FileType go nmap <leader>e  <Plug>(go-rename)
+
+	" Plugin 'Valloric/YouCompleteMe'
+	" let g:ycm_autoclose_preview_window_after_completion = 1
+	" let g:ycm_min_num_identifier_candidate_chars = 3
+	" let g:ycm_semantic_triggers = {'haskell' : ['.']}
+	" au FileType c,cpp nnoremap <leader>c :YcmForceCompileAndDiagnostics<cr>
+	" au FileType c,cpp nnoremap <leader>g :YcmCompleter GoTo<cr>
+	" au FileType c,cpp nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
+	" au FileType c,cpp nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
+	" au FileType c,cpp nnoremap <leader>t :YcmCompleter GetType<cr>
+
+	call vundle#end()
+endif
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
 
 filetype plugin on
 filetype indent on
-
-function! ToggleSemicolonHighlighting() " {{{
-	if exists("b:semicolon")
-		unlet b:semicolon
-		hi semicolon guifg=NONE gui=NONE ctermfg=NONE
-	else
-		syn match semicolon #;\s*$#
-		hi semicolon guifg=red gui=bold ctermfg=1
-		let b:semicolon = 1
-	endif
-endfunction
-" }}}
-
-function! EnableAutosave()
-	autocmd CursorHold * silent update
-	autocmd CursorHoldI * silent update
-endfunction
-
-function! SetProjectRoot()
-	lcd %:p:h
-	let good_dir = fnamemodify(".", ":p:h")
-	while 1
-		lcd ..
-		let git_dir = system("git rev-parse --show-toplevel")
-		let is_not_git_dir = matchstr(git_dir, '^fatal:.*')
-		if good_dir == git_dir
-			break
-		endif
-		if empty(is_not_git_dir)
-			let good_dir = git_dir
-			lcd `=good_dir`
-		else
-			break
-		endif
-	endwhile
-	lcd `=good_dir`
-endfunction
-
-nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<cr>
-vmap <silent> <leader>s !sort<cr>
-
-nnoremap <leader>a :A<cr>
-nnoremap <leader>A :AV<cr>
-
-nmap <F2> :NERDTreeToggle<cr>
-
-nnoremap <c-p> :FZF<cr>
-
-map <c-n> :cnext<cr>
-map <c-m> :cprevious<cr>
-nnoremap <leader>x :cclose<cr>
-
-if has("autocmd")
-	au BufNewFile,BufRead *.c* call ToggleSemicolonHighlighting()
-	au BufNewFile,BufRead *.h* call ToggleSemicolonHighlighting()
-
-	au BufEnter * :sy sync fromstart
-	au BufRead * call SetProjectRoot()
-
-	au FileType go nmap <leader>s <Plug>(go-implements)
-	au FileType go nmap <leader>i <Plug>(go-info)
-	au FileType go nmap <leader>gd <Plug>(go-doc)
-	au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
-	au FileType go nmap <leader>r <Plug>(go-run)
-	au FileType go nmap <leader>b <Plug>(go-build)
-	au FileType go nmap <leader>t <Plug>(go-test)
-	au FileType go nmap <leader>c <Plug>(go-coverage)
-	au FileType go nmap <leader>ds <Plug>(go-def-split)
-	au FileType go nmap <leader>dv <Plug>(go-def-vertical)
-	au FileType go nmap <leader>dt <Plug>(go-def-tab)
-	au FileType go nmap <leader>e <Plug>(go-rename)
-
-	au FileType c,cpp nnoremap <leader>c :YcmForceCompileAndDiagnostics<cr>
-	au FileType c,cpp nnoremap <leader>g :YcmCompleter GoTo<cr>
-	au FileType c,cpp nnoremap <leader>d :YcmCompleter GoToDeclaration<cr>
-	au FileType c,cpp nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
-	au FileType c,cpp nnoremap <leader>t :YcmCompleter GetType<cr>
-endif
 
 " Status line
 set laststatus=2
@@ -179,42 +153,33 @@ else
 endif
 
 if has("gui_running")
-	set guifont=Source\ Code\ Pro:h12
+	set guifont=JetBrains Mono:h13
 endif
 
-" airline
-let g:airline_theme = "tomorrow"
-let g:airline_powerline_fonts = 1
+function! ToggleSemicolonHighlighting()
+	if exists("b:semicolon")
+		unlet b:semicolon
+		hi semicolon guifg=NONE gui=NONE ctermfg=NONE
+	else
+		syn match semicolon #;\s*$#
+		hi semicolon guifg=red gui=bold ctermfg=1
+		let b:semicolon = 1
+	endif
+endfunction
 
-" ack
-if executable('ag')
-	let g:ackprg = 'ag --vimgrep'
-endif
+function! EnableAutosave()
+	autocmd CursorHold * silent update
+	autocmd CursorHoldI * silent update
+endfunction
 
-" fswitch
-nmap <silent> <leader>A :FSHere<cr>
-nmap <leader>s :SyntasticToggleMode<CR>
+nmap <silent> <leader>; :call ToggleSemicolonHighlighting()<cr>
+vmap <silent> <leader>s !sort<cr>
 
-" vitality
-let g:vitality_fix_focus = 1
-let g:vitality_fix_cursor = 0
+map <c-n> :cnext<cr>
+map <c-m> :cprevious<cr>
+nnoremap <leader>x :cclose<cr>
 
-" argumentative
-nmap <; <Plug>Argumentative_MoveLeft
-nmap >; <Plug>Argumentative_MoveRight
+au BufNewFile,BufRead *.c* call ToggleSemicolonHighlighting()
+au BufNewFile,BufRead *.h* call ToggleSemicolonHighlighting()
 
-" YouCompleteMe
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_min_num_identifier_candidate_chars = 3
-let g:ycm_extra_conf_globlist = ['~/yt/*', '/yt/*']
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_flake8_args = '--max-line-length=114'
-
-let g:UltiSnipsExpandTrigger = '<c-l>'
-let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+au BufEnter * :sy sync fromstart

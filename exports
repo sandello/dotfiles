@@ -1,86 +1,21 @@
-export HISTSIZE=65536
-export HISTFILESIZE="$HISTSIZE"
-export HISTCONTROL="ignoreboth:erasedups"
+#!/usr/bin/env sh
 
 export DEBFULLNAME="Ivan Puzyrevskiy"
 export DEBEMAIL="sandello@yandex-team.ru"
 
+export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 
 export PDSH_RCMD_TYPE="ssh"
 export PDSH_SSH_ARGS_APPEND="-q -A -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=publickey"
 
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 case $(uname -s) in
     Darwin*)
-        export EDITOR="mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
         export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
         ;;
     *)
-        export EDITOR="vim"
         ;;
 esac
-
-[[ -z "$TMPDIR" ]] && export TMP_DIR=/var/tmp
-
-function add_to_path()      { [[ -d "$*" ]] && PATH="$*:$PATH"; }
-function add_to_manpath()   { [[ -d "$*" ]] && MANPATH="$*:$MANPATH"; }
-function add_to_infopath()  { [[ -d "$*" ]] && INFOPATH="$*:$INFOPATH"; }
-function add_to_node_path() { [[ -d "$*" ]] && NODE_PATH="$*:$NODE_PATH"; }
-
-function remove_from_path()      { PATH=$(echo ":$PATH:" | sed -e "s,:$*:,:,g" -e "s,^:,," -e "s,:$,,"); }
-function remove_from_manpath()   { MANPATH=$(echo ":$MANPATH:" | sed -e "s,:$*:,:,g" -e "s,^:,," -e "s,:$,,"); }
-function remove_from_infopath()  { INFOPATH=$(echo ":$INFOPATH:" | sed -e "s,:$*:,:,g" -e "s,^:,," -e "s,:$,,"); }
-function remove_from_node_path() { NODE_PATH=$(echo ":$NODE_PATH:" | sed -e "s,:$*:,:,g" -e "s,^:,," -e "s,:$,,"); }
-
-function update_paths() {
-    PATH=$(awk -F: '{for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); }}' <<< $PATH)
-    MANPATH=$(awk -F: '{for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); }}' <<< $MANPATH)
-    INFOPATH=$(awk -F: '{for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); }}' <<< $INFOPATH)
-    NODE_PATH=$(awk -F: '{for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); }}' <<< $NODE_PATH)
-    export PATH
-    export MANPATH
-    export INFOPATH
-    export NODE_PATH
-}
-
-add_to_path $HOME/bin
-add_to_path $HOME/.bin
-add_to_path $HOME/.bin_private
-add_to_path $HOME/.local/bin
-add_to_path $HOME/.rvm/bin
-add_to_path $HOME/.fzf/bin
-add_to_path $HOME/Cellar/bin
-add_to_path $HOME/yatool
-add_to_path /opt/local/bin
-add_to_path /opt/local/sbin
-add_to_path /usr/local/bin
-add_to_path /usr/local/sbin
-add_to_path $GOPATH/bin
-
-add_to_node_path /usr/lib/node_modules
-add_to_node_path /usr/local/lib/node_modules
-add_to_node_path /usr/local/share/npm/lib/node_modules
-
-function linuxbrew() {
-    local flag="$1"
-    shift
-    local path_action="echo"
-    local manpath_action="echo"
-    local infopath_action="echo"
-    if [[ "$flag" = "on" ]]; then
-        path_action=add_to_path; manpath_action=add_to_manpath; infopath_action=add_to_infopath
-    fi
-    if [[ "$flag" = "off" ]]; then
-        path_action=remove_from_path; manpath_action=remove_from_manpath; infopath_action=remove_from_infopath
-    fi
-    $path_action /home/linuxbrew/.linuxbrew/bin
-    $path_action /home/linuxbrew/.linuxbrew/opt/cython/bin
-    $manpath_action /home/linuxbrew/.linuxbrew/share/man
-    $infopath_action /home/linuxbrew/.linuxbrew/share/info
-    update_paths
-}
-
-linuxbrew on
-
-update_paths
-

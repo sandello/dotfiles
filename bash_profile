@@ -1,37 +1,31 @@
-# vim: set ft=sh:
-function reload() {
-    source "$HOME/.bash_profile"
-}
+#!/usr/bin/env bash
+
+for ITEM in $HOME/.{aliases,aliases_private,exports,exports_private}; do
+    [[ -f "$ITEM" ]] && source "$ITEM"
+done
+unset ITEM
+
+for ITEM in /etc/bash_completion ~/.dotfiles/bash/*.bash; do
+    [[ -f "$ITEM" ]] && source "$ITEM"
+done
+unset ITEM
 
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s nocaseglob
 
-for item in $HOME/.{aliases,aliases_private,bash_prompt,exports,exports_private}; do
-    [ -f "$item" ] && \
-        source "$item"
-done
-unset item
+export HISTFILE="~/.bash_history"
+export HISTSIZE="65536"
+export HISTFILESIZE="$HISTSIZE"
+export HISTCONTROL="ignoreboth:erasedups"
 
-[[ ! "$PROMPT_COMMAND" == *"history -a"* ]] && \
-  PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+if test -d /usr/local/opt/fzf/shell; then
+    source /usr/local/opt/fzf/shell/completion.bash
+    source /usr/local/opt/fzf/shell/key-bindings.bash
+fi
 
-[[ -f /etc/bash_completion ]] && source /etc/bash_completion
-
-[[ -e $HOME/.ssh/config ]] && \
-    complete -o default -o nospace -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
-
-which -s dircolors > /dev/null 2>&1 && \
-    eval $(dircolors $HOME/.dotfiles/dircolors-solarized/dircolors.256dark)
-
-[[ -s "/etc/profile.d/rvm.sh" ]] && source "/etc/profile.d/rvm.sh"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-[[ -d "$HOME/google-cloud-sdk" ]] && source "$HOME/google-cloud-sdk/path.bash.inc"
-[[ -d "$HOME/google-cloud-sdk" ]] && source "$HOME/google-cloud-sdk/completion.bash.inc"
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-[[ -f "$HOME/.dotfiles/bash_completion_git" ]] && source "$HOME/.dotfiles/bash_completion_git"
+[[ ! "$PROMPT_COMMAND" == *"history -a"* ]] && PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+[[ -e ~/.ssh/config ]] && complete -o default -o nospace -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
 __git_complete ga _git_add
 __git_complete gai _git_add
@@ -54,4 +48,3 @@ __git_complete gLL _git_log
 __git_complete gl _git_pull
 
 __git_complete gp _git_push
-

@@ -1,5 +1,4 @@
-# vim: set ft=sh:
-system=$(uname -s)
+#!/usr/bin/env sh
 
 case $(uname -s) in
     Linux*)
@@ -35,8 +34,6 @@ alias u2w="iconv -f utf-8 -t cp1251"
 
 # Dumb shortcuts
 alias v="vim"
-
-# HexDump
 alias fs="stat -f '%z bytes'"
 
 # Smart shortcuts
@@ -75,9 +72,7 @@ alias grr="git reset HEAD . ; git checkout ."
 
 alias gsu="git submodule update --init --recursive"
 
-alias rvm_install_shortcut='bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)'
-alias brew_install_shortcut='/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"'
-
+# tmux
 refresh_tmux() {
     if [[ -n $TMUX ]]; then
         NEW_SSH_AUTH_SOCK=`tmux showenv | grep ^SSH_AUTH_SOCK | cut -d = -f 2`
@@ -90,3 +85,5 @@ refresh_tmux() {
     fi
 }
 
+# *sh
+alias reload='exec "$SHELL" -l'

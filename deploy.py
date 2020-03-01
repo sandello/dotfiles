@@ -71,7 +71,7 @@ Style = __AnsiCodes(__AnsiStyle)
 
 
 def report(entry, action, action_color="yellow"):
-    print "{0}{action:>12s}{1} {entry}".format(
+    print "{0}{action:>16s}{1} {entry}".format(
         Fore.__dict__[action_color.upper()],
         Fore.__dict__["RESET"],
         entry=entry,
@@ -181,37 +181,19 @@ class VundleResource(GitResource):
 
     def provision(self):
         super(VundleResource, self).provision()
-
         report(self.entry, "vim install", "blue")
-        with open("/dev/null", "w") as dev_null:
-            subprocess.check_call(
-                ["vim", "+PluginInstall", "+qall"],
-                stdout=dev_null, stderr=dev_null)
+        subprocess.check_call(["vim", "+PluginInstall!", "+qall"])
 
 
-class FzfResource(GitResource):
-    FZF_PATH = os.path.join(HOME, ".fzf")
-    FZF_REPO = "https://github.com/junegunn/fzf.git"
+class ZinitResource(GitResource):
+    ZINIT_REPO = "https://github.com/zdharma/zinit.git"
+    ZINIT_PATH = os.path.join(HOME, ".zinit", "bin")
 
     def __init__(self):
-        super(FzfResource, self).__init__(
-            ".fzf",
-            self.FZF_REPO,
-            self.FZF_PATH)
-
-    def provision(self):
-        super(FzfResource, self).provision()
-
-        if os.path.lexists(os.path.join(self.FZF_PATH, "bin", "fzf")):
-            report(self.entry, "fzf exists", "green")
-            return
-
-        report(self.entry, "fzf install", "blue")
-        subprocess.check_call([
-            os.path.join(self.FZF_PATH, "install"),
-            "--key-bindings",
-            "--completion",
-            "--no-update-rc"])
+        super(ZinitResource, self).__init__(
+            ".zinit/bin",
+            self.ZINIT_REPO,
+            self.ZINIT_PATH)
 
 
 def build_resource_list():
@@ -225,7 +207,7 @@ def build_resource_list():
         elif os.path.isdir(entry):
             build_resource_from_directory(entry, resources)
     resources.append(VundleResource())
-    resources.append(FzfResource())
+    resources.append(ZinitResource())
     return resources
 
 
