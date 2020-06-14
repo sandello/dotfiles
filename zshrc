@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 for ITEM in $HOME/.{aliases,aliases_private,exports,exports_private}; do
-    [ -f "$ITEM" ] && source "$ITEM"
+    [[ -f "$ITEM" ]] && source "$ITEM"
 done
 unset ITEM
 
@@ -47,9 +47,9 @@ fi
 # fzf integration.
 if [[ -d /usr/local/opt/fzf/shell ]]; then
     source /usr/local/opt/fzf/shell/completion.zsh
-	source /usr/local/opt/fzf/shell/key-bindings.zsh
+    source /usr/local/opt/fzf/shell/key-bindings.zsh
 else
-	bindkey "^R" history-incremental-search-backward
+    bindkey "^R" history-incremental-search-backward
 fi
 
 # fasd integration.
@@ -64,6 +64,11 @@ if [[ $commands[fasd] ]]; then
     unset fasd_cache
 fi
 
+# iterm2 integration.
+if [[ -f "$HOME/.dotfiles/zsh/iterm2.zsh" ]]; then
+    source "$HOME/.dotfiles/zsh/iterm2.zsh"
+fi
+
 #autoload -U up-line-or-beginning-search
 #autoload -U down-line-or-beginning-search
 autoload -U edit-command-line
@@ -72,7 +77,7 @@ autoload -U edit-command-line
 #zle -N down-line-or-beginning-search
 zle -N edit-command-line
 
-bindkey "^E" edit-command-line
+bindkey "^V" edit-command-line
 
 autoload -U compinit
 compinit

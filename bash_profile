@@ -5,7 +5,7 @@ for ITEM in $HOME/.{aliases,aliases_private,exports,exports_private}; do
 done
 unset ITEM
 
-for ITEM in /etc/bash_completion ~/.dotfiles/bash/*.bash; do
+for ITEM in /etc/bash_completion $HOME/.dotfiles/bash/*.bash /usr/local/etc/bash_completion.d/*; do
     [[ -f "$ITEM" ]] && source "$ITEM"
 done
 unset ITEM

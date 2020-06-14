@@ -42,11 +42,13 @@ if !isdirectory(expand("$HOME/.vim/tmp"))
 	call mkdir(expand("$HOME/.vim/tmp"), "p", 0700)
 endif
 
-syntax on
-set t_Co=256
-set t_Sb=^[4%dm
-set t_Sf=^[3%dm
+if !has("gui_running")
+	set t_Co=256
+	set t_Sb=^[4%dm
+	set t_Sf=^[3%dm
+endif
 
+syntax on
 filetype off
 
 if isdirectory("/usr/local/opt/fzf")
@@ -64,8 +66,10 @@ if isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
 
 	Plugin 'vim-airline/vim-airline'
 	Plugin 'vim-airline/vim-airline-themes'
-	let g:airline_theme = 'tomorrow'
+	let g:airline_theme = 'base16_snazzy'
 	let g:airline_powerline_fonts = 1
+
+	Plugin 'connorholyday/vim-snazzy'
 
 	Plugin 'aaronjensen/vitality.vim'
 	let g:vitality_fix_focus = 1
@@ -143,7 +147,7 @@ set foldlevel=128
 set foldopen=block,hor,mark,percent,quickfix,tag
 
 " Color Scheme
-colorscheme Tomorrow-Night-Eighties
+colorscheme snazzy
 
 " GUI features
 if (&termencoding == "utf-8") || has("gui_running")
