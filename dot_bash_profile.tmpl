@@ -12,7 +12,7 @@ for ITEM in \
     /etc/bash_completion \
     /usr/local/etc/bash_completion.d/* \
     /usr/local/share/bash-completion/completions/* \
-    {{ joinPath .chezmoi.sourceDir "bash_completion.d" "*" }} \
+    {{ joinPath .chezmoi.sourceDir "_extras" "bash_completion.d" "*" }} \
     {{ joinPath .chezmoi.homeDir ".chezmoi.bash" }} \
 ; do
     [[ -f "$ITEM" ]] && source "$ITEM"

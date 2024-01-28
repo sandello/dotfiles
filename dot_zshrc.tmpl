@@ -105,7 +105,7 @@ compdef _git gl=git-pull
 compdef _git gp=git-push
 
 # TODO: /usr/local/share/zsh/site-functions/*
-for ITEM in {{ joinPath .chezmoi.sourceDir "zsh" "*" }} {{ joinPath .chezmoi.homeDir ".chezmoi.zsh" }}; do
+for ITEM in {{ joinPath .chezmoi.sourceDir "_extras" "zsh" "*" }} {{ joinPath .chezmoi.homeDir ".chezmoi.zsh" }}; do
     [[ -f "$ITEM" ]] && source "$ITEM"
 done
 unset ITEM

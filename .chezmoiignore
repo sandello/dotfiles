@@ -1,10 +1,7 @@
 README.md
-
 deploy.py
-bash_completion.d/
-bin/
-gdb/
-zsh/
+
+_extras
 
 _identity.txt.age
 _recipients.txt.age
