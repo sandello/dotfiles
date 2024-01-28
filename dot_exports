@@ -6,6 +6,8 @@ export DEBEMAIL="sandello@yandex-team.ru"
 export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 
+export PATH=/opt/homebrew/bin:$PATH
+
 export PDSH_RCMD_TYPE="ssh"
 export PDSH_SSH_ARGS_APPEND="-q -A -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=publickey"
 
