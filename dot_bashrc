@@ -1,1 +1,1 @@
-[ -n "$PS1" ] && source "$HOME/.bash_profile"
+# This file intentionally left blank.

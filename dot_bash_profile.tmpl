@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
+# This file is managed by Chezmoi.
+
+if [[ -f $HOME/.bashrc ]]; then . $HOME/.bashrc; fi
 
 for ITEM in $HOME/.{aliases,aliases_private,exports,exports_private}; do
     [[ -f "$ITEM" ]] && source "$ITEM"
 done
 unset ITEM
 
-for ITEM in /etc/bash_completion $HOME/.dotfiles/bash/*.bash /usr/local/etc/bash_completion.d/*; do
+for ITEM in /etc/bash_completion /usr/local/etc/bash_completion.d/* {{ .chezmoi.sourceDir }}/bash_completion.d/*; do
     [[ -f "$ITEM" ]] && source "$ITEM"
 done
 unset ITEM

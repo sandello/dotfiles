@@ -1,0 +1,8 @@
+README.md
+
+deploy.py
+bash_completion.d/
+bin/
+gdb/
+zsh/
+

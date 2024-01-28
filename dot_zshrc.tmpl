@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# This file is managed by Chezmoi.
 
 for ITEM in $HOME/.{aliases,aliases_private,exports,exports_private}; do
     [[ -f "$ITEM" ]] && source "$ITEM"
@@ -64,9 +65,12 @@ if [[ $commands[fasd] ]]; then
     unset fasd_cache
 fi
 
-# iterm2 integration.
-if [[ -f "$HOME/.dotfiles/zsh/iterm2.zsh" ]]; then
-    source "$HOME/.dotfiles/zsh/iterm2.zsh"
+{{ range (glob (joinPath .chezmoi.sourceDir "zsh" "*")) -}}
+source {{ . }}
+{{- end }}
+
+if [ $commands[chezmoi] ]; then
+  source <(chezmoi completion zsh)
 fi
 
 #autoload -U up-line-or-beginning-search
