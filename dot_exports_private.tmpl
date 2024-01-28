@@ -1,0 +1,4 @@
+{{ range bitwardenFields "item" "a2d1853a-2718-49df-8d78-b10500c38637" }}
+export {{ .name }}_TOKEN={{ .value | quote }}
+{{- end }}
+
