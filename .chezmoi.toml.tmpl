@@ -1,0 +1,10 @@
+encryption = "age"
+
+[data]
+    name = "Ivan Puzyrevskiy"
+    email = "sandello@yandex-team.ru"
+
+[age]
+    identity = {{ joinPath .chezmoi.cacheDir "identity.txt" | quote }}
+    recipientsFile = {{ joinPath .chezmoi.cacheDir "recipients.txt" | quote }}
+

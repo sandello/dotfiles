@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+encrypted_identity={{ joinPath .chezmoi.sourceDir "_identity.txt.age" | quote }}
+decrypted_identity={{ joinPath .chezmoi.cacheDir "identity.txt" | quote }}
+
+if [[ ! -f "${decrypted_identity}" ]]; then
+    chezmoi age decrypt --output "${decrypted_identity}" --passphrase "${encrypted_identity}"
+    chmod 600 "${decrypted_identity}"
+fi
+
+encrypted_recipients={{ joinPath .chezmoi.sourceDir "_recipients.txt.age" | quote }}
+decrypted_recipients={{ joinPath .chezmoi.cacheDir "recipients.txt" | quote }}
+
+if [[ ! -f "${decrypted_recipients}" ]]; then
+    chezmoi age decrypt --output "${decrypted_recipients}" --passphrase "${encrypted_recipients}"
+    chmod 600 "${decrypted_recipients}"
+fi
+

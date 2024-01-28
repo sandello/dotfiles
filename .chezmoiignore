@@ -6,3 +6,6 @@ bin/
 gdb/
 zsh/
 
+_identity.txt.age
+_recipients.txt.age
+
