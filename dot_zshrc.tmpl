@@ -29,20 +29,29 @@ setopt HIST_VERIFY
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt LONG_LIST_JOBS
 
-# zinit.
-if [[ -d "$HOME/.zinit/bin" ]]; then
-    source "$HOME/.zinit/bin/zinit.zsh"
+# zi.
+if [[ -d "$HOME/.zi/bin" ]]; then
+    source "$HOME/.zi/bin/zi.zsh"
 
     # Install p10k prompt.
-    zinit ice lucid
-    zinit light romkatv/powerlevel10k
+    zi ice depth=1
+    zi light romkatv/powerlevel10k
+
     # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
     [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-    zinit wait lucid for \
-        atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-        zdharma/fast-syntax-highlighting \
-        wookayin/fzf-fasd
+    zi wait lucid for \
+        atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+            z-shell/F-Sy-H \
+        blockf \
+            zsh-users/zsh-completions \
+        atload"!_zsh_autosuggest_start" \
+            zsh-users/zsh-autosuggestions
+fi
+
+# p10k.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # fzf integration.
@@ -51,18 +60,6 @@ if [[ -d /usr/local/opt/fzf/shell ]]; then
     source /usr/local/opt/fzf/shell/key-bindings.zsh
 else
     bindkey "^R" history-incremental-search-backward
-fi
-
-# fasd integration.
-if [[ $commands[fasd] ]]; then
-    fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
-    if [[ ! -s "$fasd_cache" ]]; then
-        fasd --init posix-alias zsh-hook \
-            zsh-ccomp zsh-ccomp-install \
-            zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
-    fi
-    source "$fasd_cache"
-    unset fasd_cache
 fi
 
 #autoload -U up-line-or-beginning-search

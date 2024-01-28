@@ -1,0 +1,6 @@
+[".zi.loader"]
+    type = "file"
+    url = "https://init.zshell.dev"
+    checksum.sha256 = "23a563e80249a866c7cba3ac44eaedb1ca38f20c35690fb764a7cb75e95d38be"
+    refreshPeriod = "168h"
+
