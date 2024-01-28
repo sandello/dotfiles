@@ -72,6 +72,9 @@ alias grr="git reset HEAD . ; git checkout ."
 
 alias gsu="git submodule update --init --recursive"
 
+# chezmoi
+alias cz="chezmoi"
+
 # tmux
 refresh_tmux() {
     if [[ -n $TMUX ]]; then

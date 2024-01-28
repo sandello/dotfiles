@@ -8,7 +8,13 @@ for ITEM in $HOME/.{aliases,aliases_private,exports,exports_private}; do
 done
 unset ITEM
 
-for ITEM in /etc/bash_completion /usr/local/etc/bash_completion.d/* {{ .chezmoi.sourceDir }}/bash_completion.d/*; do
+for ITEM in \
+    /etc/bash_completion \
+    /usr/local/etc/bash_completion.d/* \
+    /usr/local/share/bash-completion/completions/* \
+    {{ joinPath .chezmoi.sourceDir "bash_completion.d" "*" }} \
+    {{ joinPath .chezmoi.homeDir ".chezmoi.bash" }} \
+; do
     [[ -f "$ITEM" ]] && source "$ITEM"
 done
 unset ITEM
@@ -51,3 +57,4 @@ __git_complete gLL _git_log
 __git_complete gl _git_pull
 
 __git_complete gp _git_push
+

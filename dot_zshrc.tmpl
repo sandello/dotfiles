@@ -65,14 +65,6 @@ if [[ $commands[fasd] ]]; then
     unset fasd_cache
 fi
 
-{{ range (glob (joinPath .chezmoi.sourceDir "zsh" "*")) -}}
-source {{ . }}
-{{- end }}
-
-if [ $commands[chezmoi] ]; then
-  source <(chezmoi completion zsh)
-fi
-
 #autoload -U up-line-or-beginning-search
 #autoload -U down-line-or-beginning-search
 autoload -U edit-command-line
@@ -111,3 +103,10 @@ compdef _git gLL=git-log
 
 compdef _git gl=git-pull
 compdef _git gp=git-push
+
+# TODO: /usr/local/share/zsh/site-functions/*
+for ITEM in {{ joinPath .chezmoi.sourceDir "zsh" "*" }} {{ joinPath .chezmoi.homeDir ".chezmoi.zsh" }}; do
+    [[ -f "$ITEM" ]] && source "$ITEM"
+done
+unset ITEM
+
