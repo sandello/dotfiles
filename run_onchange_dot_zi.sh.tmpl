@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+# zi hash: {{ include (joinPath .chezmoi.homeDir ".zi.loader") | sha256sum }}
+source {{ joinPath .chezmoi.homeDir ".zi.loader" }}
+zzinit
+
