@@ -56,38 +56,33 @@ if isdirectory("/usr/local/opt/fzf")
 	nnoremap <c-p> :FZF<cr>
 endif
 
-if isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
-	set rtp+=~/.vim/bundle/Vundle.vim
+if filereadable(expand("$HOME/.vim/autoload/plug.vim"))
+	call plug#begin()
 
-	call vundle#begin()
+	Plug 'joshdick/onedark.vim'
 
-	Plugin 'VundleVim/Vundle.vim'
-	Plugin 'Shougo/vimproc.vim'
+	Plug 'Shougo/vimproc.vim', {'do': 'make'}
 
-	Plugin 'vim-airline/vim-airline'
-	Plugin 'vim-airline/vim-airline-themes'
-	let g:airline_theme = 'base16_snazzy'
-	let g:airline_powerline_fonts = 1
+	Plug 'junegunn/vim-easy-align'
 
-	Plugin 'connorholyday/vim-snazzy'
+	Plug 'itchyny/lightline.vim'
+	let g:lightline = {'colorscheme': 'onedark'}
 
-	Plugin 'aaronjensen/vitality.vim'
+	Plug 'aaronjensen/vitality.vim'
 	let g:vitality_fix_focus = 1
 	let g:vitality_fix_cursor = 0
 
-	Plugin 'derekwyatt/vim-fswitch'
+	Plug 'derekwyatt/vim-fswitch'
 	nmap <silent> <leader>A :FSHere<cr>
 
-	Plugin 'nathanaelkane/vim-indent-guides'
+	Plug 'nathanaelkane/vim-indent-guides'
 
-	Plugin 'plasticboy/vim-markdown'
+	Plug 'scrooloose/nerdcommenter'
 
-	Plugin 'scrooloose/nerdcommenter'
-
-	Plugin 'scrooloose/nerdtree'
+	Plug 'scrooloose/nerdtree'
 	nmap <F2> :NERDTreeToggle<cr>
 
-	Plugin 'scrooloose/syntastic'
+	Plug 'scrooloose/syntastic'
 	let g:syntastic_always_populate_loc_list = 1
 	let g:syntastic_auto_loc_list = 0
 	let g:syntastic_check_on_open = 0
@@ -95,16 +90,16 @@ if isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
 	let g:syntastic_python_flake8_args = '--max-line-length=114'
 	nmap <leader>s :SyntasticToggleMode<CR>
 
-	Plugin 'tpope/vim-fugitive'
+	Plug 'tpope/vim-fugitive'
 
-	Plugin 'ervandew/supertab'
+	Plug 'ervandew/supertab'
 
-	Plugin 'sirver/ultisnips'
-	let g:UltiSnipsExpandTrigger = '<c-l>'
-	let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-	let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+	" Plug 'sirver/ultisnips'
+	" let g:UltiSnipsExpandTrigger = '<c-l>'
+	" let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+	" let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
-	Plugin 'fatih/vim-go'
+	Plug 'fatih/vim-go'
 	au FileType go nmap <leader>s  <Plug>(go-implements)
 	au FileType go nmap <leader>i  <Plug>(go-info)
 	au FileType go nmap <leader>gd <Plug>(go-doc)
@@ -128,8 +123,10 @@ if isdirectory(expand("$HOME/.vim/bundle/Vundle.vim"))
 	" au FileType c,cpp nnoremap <leader>D :YcmCompleter GoToDefinition<cr>
 	" au FileType c,cpp nnoremap <leader>t :YcmCompleter GetType<cr>
 
-	call vundle#end()
+	call plug#end()
 endif
+
+colorscheme onedark
 
 set completeopt=menu,menuone,longest
 set wildmode=list:longest,list:full
@@ -145,9 +142,6 @@ set foldmethod=marker
 set foldmarker={,}
 set foldlevel=128
 set foldopen=block,hor,mark,percent,quickfix,tag
-
-" Color Scheme
-colorscheme snazzy
 
 " GUI features
 if (&termencoding == "utf-8") || has("gui_running")

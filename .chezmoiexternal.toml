@@ -4,3 +4,9 @@
     checksum.sha256 = "23a563e80249a866c7cba3ac44eaedb1ca38f20c35690fb764a7cb75e95d38be"
     refreshPeriod = "168h"
 
+[".vim/autoload/plug.vim"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    checksum.sha256 = "b97c0baec81a9fa3d861fc6e75d89813ec2b040759dd6168fe65278f2c439ded"
+    refreshPeriod = "168h"
+
