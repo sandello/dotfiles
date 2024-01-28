@@ -1,14 +1,4 @@
-Dotfiles for my environment.
+## Hello!
 
-To deploy:
-```
-curl https://raw.githubusercontent.com/sandello/dotfiles/master/deploy.py | python - --bootstrap
-```
+Those are my dotfiles, managed by [chezmoi](https://www.chezmoi.io).
 
-Thanks to:
-  * https://github.com/mathiasbynens/dotfiles
-  * https://github.com/gf3/dotfiles
-  * https://github.com/sjl/oh-my-zsh
-
-Ivan Puzyrevskiy,
-sandello@gmail.com.
